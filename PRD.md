@@ -57,7 +57,8 @@ A browser-based 3D experience. Narrative is bound to space and interaction, neve
    - **Rule-derived** (Yingzao Fashi) — e.g. indigo
    - **Conjecture** (flagged, minimal) — e.g. red
    One switch shows the entire model's honesty. It is also the live answer to both "what about China's careless restorations?" and "doesn't AI hallucinate?" — nothing renders without a source; what can't cite, shows red.
-6. **Inference mode (Hanyuan Hall)** — same scene framework, provenance layer showing mostly rule-derived + conjecture coloring, which is precisely the point.
+6. **Color hypothesis toggle** — a switch between **present-day appearance (今貌, default)** and **Tang color hypothesis (唐色推想)**. The Tang scheme is rendered as *cited conjecture*: it carries its own evidence citations (see Data Sources — color evidence) and is governed by the same provenance discipline as the geometry — a color hypothesis is a labeled, sourced guess, never a silent default.
+7. **Inference mode (Hanyuan Hall)** — same scene framework, provenance layer showing mostly rule-derived + conjecture coloring, which is precisely the point.
 
 ## 7. Reconstruction Pipeline — Agent Architecture & Reasoning
 
@@ -104,6 +105,7 @@ Autonomy and orchestration are judged from the session log, brief, and rubric. P
 - Prepare the data corpus: Nanchan/Foguang dimension JSON, Yingzao Fashi relevant fascicles (plain text), reference drawing scans, Hanyuan column-base coordinates.
 - Write and rehearse this brief + `done.rubric.json` + verifier criteria on personal credits; distill failure modes (bracket modeling, roof curves) back into the brief as general rules.
 - Lock design direction: palette, type, narration tone — in the brief.
+- **Colors ship as design tokens, not day-of choices.** The brief pre-defines four locked color values — **朱 vermilion, 白 white, 灰瓦 grey tile, 素木 plain timber** — and Fable applies them by token name only; it is never asked to invent or "improve" a color on the day. Division of labor: **the model derives the geometry; the human locks the aesthetics.** Geometry is checkable against sources, so the model owns it; taste is not, so it is fixed in the brief before the event.
 
 **On the day:**
 - Fresh public repo. Hand Fable 5 the brief, data corpus, and rubric. `/goal`: live URL where the Nanchan experience completes with verifier pass ≥ threshold.
@@ -120,6 +122,7 @@ Autonomy and orchestration are judged from the session log, brief, and rubric. P
 - **Yingzao Fashi** — ancient text, fully public domain. Core ruleset.
 - **Published survey dimensions** (Shanxi institute, Tsinghua report, academic papers) — factual data, not copyrightable. Used as numbers; **no scanned figures from the 2011 Tsinghua report are used as assets.**
 - **Yingzao Society / Liang Sicheng measured drawings** — author d. 1972; under China's life+50 term these entered the public domain (2023). Used as verifier reference; sources credited in README; prefer early Society bulletin versions to avoid publisher layout-rights claims.
+- **Color evidence (for the Tang color hypothesis)** — architectural imagery in Tang-dynasty Dunhuang murals; Yingzao Fashi fascicle 14 (丹粉刷饰, red-and-white painted finishes); and Tōshōdai-ji Golden Hall 唐招提寺金堂 as analogical evidence (a Tang-lineage building preserving period color treatment). Used as citations for the color scheme; the scheme itself is classed as cited conjecture.
 - **Hanyuan Hall** — archaeological base-plan data only. **No modern scholars' reconstruction images (Fu Xinian, Yang Hongxun) are used or imitated** — their copyrights are active, and independence from them is also the methodological point.
 - All sources listed in README with rights notes (hackathon rule: unauthorized assets = DQ).
 
