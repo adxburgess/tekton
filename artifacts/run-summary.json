@@ -1,61 +1,17 @@
 {
-  "generated_at": "2026-06-13T22:01:06.815Z",
-  "run_id": "run-2026-06-13_21-59-39",
+  "generated_at": "2026-06-13T22:35:33.480Z",
+  "run_id": "run-local",
   "building": "notre-dame",
-  "verdict": "PARTIAL",
+  "verdict": "RED",
   "note": null,
   "phases": [
     {
-      "phase": 1,
-      "name": "RESEARCH",
+      "phase": "6T",
+      "name": "TOWERS",
       "ok": true,
-      "verdicts": 16,
-      "gaps": 40
-    },
-    {
-      "phase": 2,
-      "name": "INGEST",
-      "ok": true
-    },
-    {
-      "phase": 3,
-      "name": "DERIVE",
-      "ok": true
-    },
-    {
-      "phase": 4,
-      "name": "BUILD",
-      "ok": true
-    },
-    {
-      "phase": 5,
-      "name": "VERIFY",
-      "ok": true,
-      "deterministic": true,
-      "vision": "pass",
-      "soft": true
-    },
-    {
-      "phase": 6,
-      "name": "LOOP",
-      "ok": true,
-      "restored_green": true,
-      "v08_refused": true,
-      "failed_reports_kept": 12
-    },
-    {
-      "phase": 7,
-      "name": "RECORD",
-      "ok": true,
-      "webm": "run-2026-06-13_21-59-39.webm",
-      "soft": true
-    },
-    {
-      "phase": 8,
-      "name": "SHIP",
-      "ok": true,
-      "url": "http://localhost:5057/?building=notre-dame",
-      "http_status": 200,
+      "derive": true,
+      "checks": "15/15",
+      "critical_failures": [],
       "soft": true
     }
   ],
@@ -68,7 +24,7 @@
         "critical": true,
         "requirement": "npm run goal runs the full 8-phase flow (research→ingest→derive→build→verify→loop→record→ship) and exits 0",
         "check": "run-summary.json verdict == 'pass' AND process exit 0",
-        "status": "green"
+        "status": "red"
       },
       {
         "id": "build_green",
@@ -149,7 +105,7 @@
         "critical": true,
         "requirement": "Measured-reality guard (V08 for the spire; the V09-analog from Nanchan): demo:corrupt → verify refuses (exit 1) → demo:restore → green. The build cannot ship geometry idealized toward the rulebook",
         "check": "orchestrate LOOP recorded a corrupt→refuse(exit 1)→restore→green beat",
-        "status": "green"
+        "status": "red"
       },
       {
         "id": "fail_revise_pass",
@@ -230,7 +186,7 @@
         "critical": true,
         "requirement": "Live URL responds 200",
         "check": "run-summary ship.http_status == 200",
-        "status": "green"
+        "status": "red"
       },
       {
         "id": "public_repo",
@@ -239,7 +195,7 @@
         "critical": false,
         "requirement": "Public repo (hackathon rule — private = DQ)",
         "check": "github.com/tangxiya-star/yingzao visibility == public",
-        "status": "red"
+        "status": "green"
       },
       {
         "id": "readme",
@@ -267,16 +223,83 @@
         "requirement": "Rerunnable: npm run goal works from a clean checkout and is building-parameterized; Nanchan stays green as the regression anchor",
         "check": "fresh clone + npm run goal reaches green; --building nanchan still passes",
         "status": "green"
+      },
+      {
+        "id": "towers_facade_width",
+        "category": "impact",
+        "required": false,
+        "critical": false,
+        "requirement": "v2 towers tier — west façade total width = 43.5 m (measured anchor, multiply confirmed), recomputed from component coords",
+        "check": "verifier-report.notre-dame-towers T01 passes",
+        "status": "green"
+      },
+      {
+        "id": "towers_height",
+        "category": "impact",
+        "required": false,
+        "critical": false,
+        "requirement": "v2 towers tier — towers culminate at 69 m (measured anchor); not idealized toward an ad-quadratum/triangulum ideal (measured-reality guard)",
+        "check": "verifier-report.notre-dame-towers T02 passes",
+        "status": "green"
+      },
+      {
+        "id": "gallery_of_kings_28",
+        "category": "impact",
+        "required": false,
+        "critical": false,
+        "requirement": "v2 towers tier — Gallery of Kings = exactly 28 king figures across the façade band (measured count)",
+        "check": "verifier-report.notre-dame-towers T03 passes",
+        "status": "green"
+      },
+      {
+        "id": "towers_three_portals",
+        "category": "impact",
+        "required": false,
+        "critical": false,
+        "requirement": "v2 towers tier — three west portals present, centre portal the widest (Last Judgment)",
+        "check": "verifier-report.notre-dame-towers T04 passes",
+        "status": "green"
+      },
+      {
+        "id": "towers_rose",
+        "category": "impact",
+        "required": false,
+        "critical": false,
+        "requirement": "v2 towers tier — west rose diameter ≈ 9.6 m (measured), radial tracery present",
+        "check": "verifier-report.notre-dame-towers T05 passes",
+        "status": "green"
+      },
+      {
+        "id": "towers_zero_unsourced",
+        "category": "impact",
+        "required": false,
+        "critical": false,
+        "requirement": "v2 towers tier — zero unsourced components; every component {provenance,source,url,rights} resolves to the rights-cleared registry; no fabrication (chimeras/GAPs never measured)",
+        "check": "verifier-report.notre-dame-towers T07 + T08 pass",
+        "status": "green"
+      },
+      {
+        "id": "towers_textures",
+        "category": "demo",
+        "required": false,
+        "critical": false,
+        "requirement": "v2 towers tier — materials sourced (Lutetian limestone TYPE measured; exact RGB stays GAP, never invented); procedural-only textures, no imported assets",
+        "check": "verifier-report.notre-dame-towers T09 passes",
+        "status": "green"
       }
     ],
-    "green": 22,
-    "total": 23,
-    "required_green": 21,
+    "green": 27,
+    "total": 30,
+    "required_green": 19,
     "required_total": 22,
-    "critical_fails": []
+    "critical_fails": [
+      "goal_green",
+      "v08_guard",
+      "live_url"
+    ]
   },
   "ship": {
-    "url": "http://localhost:5057/?building=notre-dame",
-    "http_status": 200
+    "url": "",
+    "http_status": 0
   }
 }

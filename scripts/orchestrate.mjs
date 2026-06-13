@@ -228,6 +228,43 @@ function classify(failing) {
   return "rule-engine";
 }
 
+// ──────────────── 6T · TOWERS (additive v2 tier — gated step) ─────────────
+// The west-towers + façade v2 tier runs as its OWN uniform gated step AFTER the
+// spire VERIFY/LOOP, mirroring the spire's derive→verify pipe. It is purely
+// additive: guarded behind the same --only/--skip-build flags, and its gate is
+// SOFT so a towers regression is RECORDED (and grades red in the rubric) without
+// ever halting the spire flow before SHIP. The towers verifier writes its own
+// artifacts/verifier-report.notre-dame-towers.json (and mirrors the shared
+// verifier-report.json); we restore the spire report into that shared slot after,
+// so the spire stays the canonical report for the downstream phases.
+let towersOk = true;
+if (!skip("towers")) {
+  banner("6T", "TOWERS — v2 west-towers + façade tier: derive→verify, gated on its own report (additive)");
+  const td = run("node", ["scripts/derive.mjs", "--building", "notre-dame-towers"]);
+  const tderiveOk = td.code === 0 && existsSync(join(ROOT, "artifacts/structural-spec.notre-dame-towers.json"));
+  // refresh towers screenshots against the same static server, if one is up
+  if (!has("--skip-build")) { server = server || startStaticServer(); if (server) process.env.URL = serverBase; }
+  const tv = run("node", ["scripts/verify.mjs", "--building", "notre-dame-towers"]);
+  let treport = { summary: { total: 0, pass: 0, fail: 1, critical_failures: [] }, checks: [] };
+  if (existsSync(join(ROOT, "artifacts/verifier-report.notre-dame-towers.json"))) {
+    treport = JSON.parse(readFileSync(join(ROOT, "artifacts/verifier-report.notre-dame-towers.json"), "utf8"));
+  }
+  towersOk = tderiveOk && tv.code === 0 && treport.summary.fail === 0;
+  // restore the spire report as the canonical shared verifier-report.json (the
+  // towers verifier overwrote it); keeps the spire flow's invariants intact.
+  if (existsSync(join(ROOT, "artifacts/verifier-report.notre-dame.json"))) {
+    writeFileSync(join(ROOT, "artifacts/verifier-report.json"),
+      readFileSync(join(ROOT, "artifacts/verifier-report.notre-dame.json"), "utf8"));
+  }
+  emit("towers_gate", { derive: tderiveOk, verify_exit: tv.code, summary: treport.summary });
+  gate("6T", "TOWERS", towersOk, {
+    derive: tderiveOk,
+    checks: `${treport.summary.pass}/${treport.summary.total}`,
+    critical_failures: treport.summary.critical_failures,
+    soft: true,
+  });
+}
+
 // ───────────────────────────── 7 · RECORD ───────────────────────────────
 if (!skip("record") && !has("--skip-record")) {
   banner(7, "RECORD — Playwright recordVideo of the full run → artifacts/run-*.webm");
@@ -270,6 +307,10 @@ function gradeRubric() {
   const findings = existsSync(join(ROOT, "artifacts/research-findings.json"))
     ? JSON.parse(readFileSync(join(ROOT, "artifacts/research-findings.json"), "utf8")) : { summary: {} };
   const passed = (id) => report.checks.find((c) => c.id === id)?.pass === true;
+  // towers v2 tier — graded from its own report (additive; spire verdict unaffected)
+  const towersReport = existsSync(join(ROOT, "artifacts/verifier-report.notre-dame-towers.json"))
+    ? JSON.parse(readFileSync(join(ROOT, "artifacts/verifier-report.notre-dame-towers.json"), "utf8")) : { checks: [], summary: {} };
+  const tPassed = (id) => towersReport.checks.find((c) => c.id === id)?.pass === true;
   const A = join(ROOT, "artifacts");
   const ls = existsSync(A) ? readdirSync(A) : [];
   const sv = existsSync(join(ROOT, "components/SpireViewer.tsx")) ? readFileSync(join(ROOT, "components/SpireViewer.tsx"), "utf8") : "";
@@ -309,6 +350,14 @@ function gradeRubric() {
     readme: () => ex("README.md"),
     autonomy_log: () => ls.some((f) => /^verifier-report\..*\.failed\.json$/.test(f)) && ex("artifacts/orchestrate-log.jsonl"),
     rerunnable: () => ex("data/nanchan-canonical.json") && ex("artifacts/structural-spec.json"),
+    // ── towers v2 tier (required:false → never affects the spire verdict) ──
+    towers_facade_width: () => tPassed("T01"),
+    towers_height: () => tPassed("T02"),
+    gallery_of_kings_28: () => tPassed("T03"),
+    towers_three_portals: () => tPassed("T04"),
+    towers_rose: () => tPassed("T05"),
+    towers_zero_unsourced: () => tPassed("T07") && tPassed("T08"),
+    towers_textures: () => tPassed("T09"),
   };
   const graded = rubric.criteria.map((c) => ({ ...c, status: checkers[c.id]?.() ? "green" : "red" }));
   const req = graded.filter((c) => c.required);
