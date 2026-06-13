@@ -2,7 +2,7 @@
 
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 
 interface ClickHandlerProps {
   raycaster: React.MutableRefObject<THREE.Raycaster>;
@@ -12,13 +12,6 @@ interface ClickHandlerProps {
 
 export function ClickHandler({ raycaster, mouse, onComponentClick }: ClickHandlerProps) {
   const { camera, gl } = useThree();
-  const clickedRef = useRef(false);
-
-  useFrame(() => {
-    // Check if there was a click
-    // This is a simplified approach; in a real scenario, you'd use pointer/click events
-    // For now, we'll set up raycasting ready for use
-  });
 
   // Set up event listener on canvas
   const handleCanvasClick = useCallback(
@@ -33,9 +26,9 @@ export function ClickHandler({ raycaster, mouse, onComponentClick }: ClickHandle
       mouse.current.set(x, y);
       raycaster.current.setFromCamera(mouse.current, camera);
 
-      // Raycast against all objects
+      // Raycast against all objects in the scene
       const allObjects: THREE.Object3D[] = [];
-      camera.parent?.traverse((obj) => {
+      gl.scene.traverse((obj) => {
         if (obj instanceof THREE.Mesh) allObjects.push(obj);
       });
 
@@ -58,13 +51,14 @@ export function ClickHandler({ raycaster, mouse, onComponentClick }: ClickHandle
         }
       }
     },
-    [raycaster, mouse, camera, gl.domElement, onComponentClick]
+    [raycaster, mouse, camera, gl, onComponentClick]
   );
 
   // Attach click listener
-  React.useEffect(() => {
-    gl.domElement.addEventListener("click", handleCanvasClick);
-    return () => gl.domElement.removeEventListener("click", handleCanvasClick);
+  useEffect(() => {
+    const canvas = gl.domElement;
+    canvas.addEventListener("click", handleCanvasClick);
+    return () => canvas.removeEventListener("click", handleCanvasClick);
   }, [gl.domElement, handleCanvasClick]);
 
   return null;

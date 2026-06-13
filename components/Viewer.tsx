@@ -7,6 +7,7 @@ import * as THREE from "three";
 import spec from "../artifacts/structural-spec.json";
 import PlaybackControls, { PlaybackControlsProps } from "./PlaybackControls";
 import { AnnotationPanel, AnnotationData } from "./AnnotationPanel";
+import { ClickHandler } from "./ClickHandler";
 
 /** First-person camera controller with WASD movement and mouse look. */
 function FirstPersonController({ enabled }: { enabled: boolean }) {
@@ -655,18 +656,18 @@ export default function Viewer() {
   const flyingRef = useRef(true);
   const [entered, setEntered] = useState(false);
   const goal = entered ? CAMS.altarfront : cam;
-  const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    const canvas = event.currentTarget;
-    mouseRef.current.x = (event.clientX / canvas.clientWidth) * 2 - 1;
-    mouseRef.current.y = -(event.clientY / canvas.clientHeight) * 2 + 1;
 
-    // Raycasting will be done in a useFrame inside Scene or ClickHandler component
-    // Store the click info for later processing
+  const handleComponentClick = (componentId: string, screenPos: { x: number; y: number }) => {
+    const comp = components.find((c) => c.id === componentId);
+    if (comp && comp.annotation) {
+      setSelectedComponent(comp as Component & { annotation: AnnotationData });
+      setAnnotationPos(screenPos);
+    }
   };
 
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
-      <Canvas camera={{ position: cam.pos, fov: 42 }} shadows onClick={handleCanvasClick}>
+      <Canvas camera={{ position: cam.pos, fov: 42 }} shadows>
         <color attach="background" args={["#141416"]} />
         <fog attach="fog" args={["#141416", 36, 95]} />
         <hemisphereLight args={["#56688a", "#3a3026", prov ? 0.3 : 0.3]} />
@@ -712,6 +713,7 @@ export default function Viewer() {
         )}
         {firstPerson && <FirstPersonController enabled={firstPerson} />}
         <CameraRig goal={goal} entered={entered} doorRefs={doorRefs} flyingRef={flyingRef} />
+        <ClickHandler raycaster={raycasterRef} mouse={mouseRef} onComponentClick={handleComponentClick} />
       </Canvas>
 
       {/* enter / exit the hall + first-person toggle + playback mode */}
@@ -832,6 +834,20 @@ export default function Viewer() {
           onPlayPauseChange={setIsPlaying}
           speed={playbackSpeed}
           onSpeedChange={setPlaybackSpeed}
+        />
+      )}
+
+      {/* Annotation panel */}
+      {selectedComponent && selectedComponent.annotation && (
+        <AnnotationPanel
+          title_zh={selectedComponent.annotation.title_zh}
+          title_en={selectedComponent.annotation.title_en}
+          desc_zh={selectedComponent.annotation.desc_zh}
+          desc_en={selectedComponent.annotation.desc_en}
+          reference_image={selectedComponent.annotation.reference_image}
+          reference_label={selectedComponent.annotation.reference_label}
+          position={annotationPos}
+          onClose={() => setSelectedComponent(null)}
         />
       )}
     </div>

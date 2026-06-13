@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import "../styles/annotation.css";
 
 export interface AnnotationData {
   title_zh: string;
@@ -48,6 +46,7 @@ export function AnnotationPanel({
           left: `${position.x}px`,
           top: `${position.y}px`,
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* 关闭按钮 */}
         <button className="annotation-close" onClick={onClose} aria-label="Close">
@@ -71,7 +70,10 @@ export function AnnotationPanel({
           <div className="annotation-reference">
             <button
               className="reference-toggle"
-              onClick={() => setShowReference(!showReference)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowReference(!showReference);
+              }}
             >
               📷 {reference_label} {showReference ? "▾" : "▸"}
             </button>
@@ -80,8 +82,11 @@ export function AnnotationPanel({
               <div className="reference-image-container">
                 <img
                   src={reference_image}
-                  alt={reference_label}
+                  alt={reference_label || "Reference"}
                   className="reference-image"
+                  onError={(e) => {
+                    console.error("Failed to load reference image:", reference_image);
+                  }}
                 />
                 <p className="reference-credit">{reference_label}</p>
               </div>

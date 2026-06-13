@@ -1,7 +1,23 @@
+#!/usr/bin/env node
 import fs from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
-const specPath = '/Users/touyuumiyabi/Desktop/yingzao/artifacts/structural-spec.json';
-const spec = JSON.parse(fs.readFileSync(specPath, 'utf-8'));
+const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+const specPath = join(ROOT, 'artifacts/structural-spec.json');
+
+let spec;
+try {
+  spec = JSON.parse(fs.readFileSync(specPath, 'utf-8'));
+} catch (err) {
+  console.error(`✗ Failed to read or parse ${specPath}:`, err.message);
+  process.exit(1);
+}
+
+if (!Array.isArray(spec.components)) {
+  console.error('✗ spec.components is not an array');
+  process.exit(1);
+}
 
 // 标注数据定义
 const annotations = {
@@ -78,23 +94,28 @@ const componentTypes = [
 
 let addedCount = 0;
 
-// 为每个部件添加 annotation
-spec.components = spec.components.map(comp => {
-  if (!comp.id) return comp;
+try {
+  // Add annotations to each component
+  spec.components = spec.components.map(comp => {
+    if (!comp.id) return comp;
 
-  // 检查部件是否匹配注释类型
-  for (const [pattern, annData] of Object.entries(annotations)) {
-    if (comp.id.includes(pattern)) {
-      comp.annotation = annData;
-      addedCount++;
-      break;
+    // Check if component matches any annotation pattern
+    for (const [pattern, annData] of Object.entries(annotations)) {
+      if (comp.id.includes(pattern)) {
+        comp.annotation = annData;
+        addedCount++;
+        break;
+      }
     }
-  }
 
-  return comp;
-});
+    return comp;
+  });
 
-// 写回
-fs.writeFileSync(specPath, JSON.stringify(spec, null, 2));
-console.log(`✓ Added annotations to ${addedCount} components`);
-console.log(`✓ Annotation types: ${Object.keys(annotations).join(', ')}`);
+  // Write back to file
+  fs.writeFileSync(specPath, JSON.stringify(spec, null, 2));
+  console.log(`✓ Added annotations to ${addedCount} components`);
+  console.log(`✓ Annotation types: ${Object.keys(annotations).join(', ')}`);
+} catch (err) {
+  console.error('✗ Failed to add annotations:', err.message);
+  process.exit(1);
+}
