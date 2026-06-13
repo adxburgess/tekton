@@ -372,16 +372,18 @@ function Member({
     return col;
   }, [provMode, mode, c.provenance, c.material, c.phase, c.id, tintKey]);
 
+  const isReconWhiteWall = mode === "recon" && c.material === "bai" && !provMode;
+
   const mat = (
     <meshStandardMaterial
       color={color}
       map={set?.map}
-      normalMap={set?.normalMap}
-      normalScale={set ? new THREE.Vector2(0.9, 0.9) : undefined}
-      aoMap={set?.arm}
-      roughnessMap={set?.arm}
+      normalMap={isReconWhiteWall ? undefined : set?.normalMap}
+      normalScale={isReconWhiteWall ? undefined : set ? new THREE.Vector2(0.9, 0.9) : undefined}
+      aoMap={isReconWhiteWall ? undefined : set?.arm}
+      roughnessMap={isReconWhiteWall ? undefined : set?.arm}
       metalness={0}
-      roughness={provMode ? 1 : 0.97}
+      roughness={isReconWhiteWall ? 0.5 : provMode ? 1 : 0.97}
       envMapIntensity={0.35}
       side={g.type === "poly" ? THREE.DoubleSide : THREE.FrontSide}
     />
