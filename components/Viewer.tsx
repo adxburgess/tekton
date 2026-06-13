@@ -225,6 +225,7 @@ type TexKit = {
   woodR: PbrSet;  // rotated 90° — grain along U for horizontal box members
   roof: PbrSet;
   plaster: PbrSet;
+  cleanPlaster: PbrSet;  // clean white plaster for recon mode
   stone: PbrSet;
 };
 
@@ -347,13 +348,9 @@ function Member({
       set = g.type === "cylinder" || g.type === "lathe" ? tex.wood : tex.woodR;
       tintKey = c.material && RECON_TINTS[c.material] ? c.material : "sumu";
     } else if (c.material === "bai") {
-      // In recon mode, use clean white plaster; in today mode, use worn plaster texture
-      if (mode !== "today") {
-        tintKey = "bai";
-      } else {
-        set = tex.plaster;
-        tintKey = "bai";
-      }
+      // Use appropriate plaster texture based on mode
+      set = mode === "recon" ? tex.cleanPlaster : tex.plaster;
+      tintKey = "bai";
     } else if (c.material === "stone" || c.phase === "platform") {
       set = tex.stone;
       tintKey = "stone";
@@ -547,6 +544,7 @@ function Scene({
     woodR: usePbr("rough_wood", [1, 1], true),
     roof: usePbr("roof_tiles_14", [6, 3]),
     plaster: usePbr("worn_plaster_wall", [2, 1]),
+    cleanPlaster: usePbr("clean_plaster_wall", [2, 1]),
     stone: usePbr("granite_tile", [4, 1]),
   };
   return (
