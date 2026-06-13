@@ -2,7 +2,7 @@
 
 > Brief for an autonomous **Fable 5 / dynamic-workflow** run. Execute every ticket to completion and **self-verify**. Provenance is the product: **nothing renders without a real, cited source.**
 >
-> Companion to the Notion board (epic **Notre-Dame de Paris — Spire (v1)**, tickets `ND-1`…`ND-28`) and the **Verifier & Acceptance Gate** reference.
+> Companion to the Notion board (epic **Notre-Dame de Paris — Spire (v1)**, tickets `ND-1`…`ND-31`) and the **Verifier & Acceptance Gate** reference.
 
 ---
 
@@ -79,6 +79,9 @@ On failure: decide **rule engine vs geometry builder**, fix, re-run. **Keep ever
 | ND-26 | Pipeline stage rail | UI/Demo | Claude | ND-22 | Ingest→Derive→Build→Verify→Ship rail advances in sync |
 | ND-27 | Live agent mode — stream a real run (SSE) | Build | Claude | ND-28 | Live pipeline streams components+log+checks to the UI in real time; graceful fallback to replay |
 | ND-28 | Incremental / streaming artifact emission (enabler) | Build | Claude | ND-4 | `derive.mjs` appends components as JSONL + tailable log; SSE bridge `fs.watch`es artifacts → events. Powers the live theater |
+| ND-29 | Live Claude Code session stream (real agent thinking) | UI/Demo | Claude | ND-28 | `claude -p --output-format stream-json` / transcript tail / hook → SSE → live reasoning + tool-call feed from a real run |
+| ND-30 | `done.rubric.json` — machine-gradable rubric | Verify | Austin | — | Agent/verifier self-grades "done" against it (mirrors the DoD); the orchestration artifact |
+| ND-31 | Saved demo workflow / one-key live run | Ship | Team | ND-22,24 | One command drives the full live demo (streamed build + `demo:corrupt`→restore beat); deterministic replay fallback |
 
 ## 6. Rubric → hackathon scoring (Impact 35 / Demo 35 / Autonomy 15 / Orchestration 15)
 
@@ -90,7 +93,7 @@ On failure: decide **rule engine vs geometry builder**, fix, re-run. **Keep ever
 ## 7. The `/goal` command
 
 ```
-/goal Build and ship the Notre-Dame de Paris spire (la flèche) reconstruction per docs/GOAL_NOTRE_DAME_SPIRE.md. Work the backlog ND-1..ND-28 in dependency order. Derive the spire from data/notre-dame-canonical.json + public-domain Viollet-le-Duc drawings and Gothic geometric rules into artifacts/structural-spec.json (every component tagged {provenance, source, url, rights}); render it procedurally in React Three Fiber with no imported meshes; and gate on scripts/verify.mjs — the deterministic geometry + pixel checks AND a vision-verifier sub-agent run in a fresh context. Loop derive -> verify -> screenshot -> vision-verify until green; on failure route the fix to the rule engine or the geometry builder and re-run; keep every failed verifier report. DONE when: npm run build (derive && verify && next build) exits 0 with zero unsourced components (G09 source-registry passes), the provenance toggle + drawing-to-3D reveal + construction sequence + click-to-inspect + the real-time Build Theater all work, no restricted assets are used, and a deployed URL responds. Never correct measured reality toward the Gothic ideal (V09); deviations are labeled, not fixed.
+/goal Build and ship the Notre-Dame de Paris spire (la flèche) reconstruction per docs/GOAL_NOTRE_DAME_SPIRE.md. Work the backlog ND-1..ND-31 in dependency order. Derive the spire from data/notre-dame-canonical.json + public-domain Viollet-le-Duc drawings and Gothic geometric rules into artifacts/structural-spec.json (every component tagged {provenance, source, url, rights}); render it procedurally in React Three Fiber with no imported meshes; and gate on scripts/verify.mjs — the deterministic geometry + pixel checks AND a vision-verifier sub-agent run in a fresh context. Loop derive -> verify -> screenshot -> vision-verify until green; on failure route the fix to the rule engine or the geometry builder and re-run; keep every failed verifier report. DONE when: npm run build (derive && verify && next build) exits 0 with zero unsourced components (G09 source-registry passes), the provenance toggle + drawing-to-3D reveal + construction sequence + click-to-inspect + the real-time Build Theater all work, no restricted assets are used, and a deployed URL responds. Never correct measured reality toward the Gothic ideal (V09); deviations are labeled, not fixed.
 ```
 
 ## 8. Orchestration notes
