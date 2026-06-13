@@ -6,6 +6,7 @@ import { OrbitControls, useGLTF, Environment, useTexture } from "@react-three/dr
 import * as THREE from "three";
 import spec from "../artifacts/structural-spec.json";
 import PlaybackControls, { PlaybackControlsProps } from "./PlaybackControls";
+import { AnnotationPanel, AnnotationData } from "./AnnotationPanel";
 
 /** First-person camera controller with WASD movement and mouse look. */
 function FirstPersonController({ enabled }: { enabled: boolean }) {
@@ -397,6 +398,7 @@ function Member({
           position={[pos[0] - hingeX, 0, 0]}
           castShadow
           receiveShadow
+          userData={{ componentId: c.id }}
           onClick={(e) => {
             e.stopPropagation();
             onEnter();
@@ -609,6 +611,10 @@ export default function Viewer() {
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [loadedSpec, setLoadedSpec] = useState<typeof spec>(spec);
   const [playbackMeta, setPlaybackMeta] = useState<any>(null);
+  const [selectedComponent, setSelectedComponent] = useState<(Component & { annotation?: AnnotationData }) | null>(null);
+  const [annotationPos, setAnnotationPos] = useState({ x: 0, y: 0 });
+  const raycasterRef = useRef<THREE.Raycaster>(new THREE.Raycaster());
+  const mouseRef = useRef(new THREE.Vector2());
 
   // Load playback state when index changes in playback mode
   useEffect(() => {
@@ -649,9 +655,18 @@ export default function Viewer() {
   const flyingRef = useRef(true);
   const [entered, setEntered] = useState(false);
   const goal = entered ? CAMS.altarfront : cam;
+  const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = event.currentTarget;
+    mouseRef.current.x = (event.clientX / canvas.clientWidth) * 2 - 1;
+    mouseRef.current.y = -(event.clientY / canvas.clientHeight) * 2 + 1;
+
+    // Raycasting will be done in a useFrame inside Scene or ClickHandler component
+    // Store the click info for later processing
+  };
+
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative" }}>
-      <Canvas camera={{ position: cam.pos, fov: 42 }} shadows>
+      <Canvas camera={{ position: cam.pos, fov: 42 }} shadows onClick={handleCanvasClick}>
         <color attach="background" args={["#141416"]} />
         <fog attach="fog" args={["#141416", 36, 95]} />
         <hemisphereLight args={["#56688a", "#3a3026", prov ? 0.3 : 0.3]} />
