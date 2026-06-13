@@ -192,9 +192,11 @@ function GltfMember({ c, mode }: { c: Component; mode: ViewMode }) {
       if (mesh.isMesh) {
         mesh.castShadow = mesh.receiveShadow = true;
         if (provMode) {
-          mesh.material = new THREE.MeshStandardMaterial({
+          // unlit + tone-mapping off → the pixel equals PROV_COLORS exactly,
+          // so the render matches the legend swatches (and the vision verifier).
+          mesh.material = new THREE.MeshBasicMaterial({
             color: PROV_COLORS[c.provenance],
-            roughness: 1,
+            toneMapped: false,
             side: THREE.DoubleSide,
           });
         } else {
@@ -309,7 +311,12 @@ function Member({
     return col;
   }, [provMode, mode, c.provenance, c.material, c.phase, c.id, tintKey]);
 
-  const mat = (
+  const side = g.type === "poly" ? THREE.DoubleSide : THREE.FrontSide;
+  // provenance mode: unlit + tone-mapping off so the rendered pixel equals
+  // PROV_COLORS exactly, matching the legend swatches and the vision verifier.
+  const mat = provMode ? (
+    <meshBasicMaterial color={color} toneMapped={false} side={side} />
+  ) : (
     <meshStandardMaterial
       color={color}
       map={set?.map}
@@ -318,9 +325,9 @@ function Member({
       aoMap={set?.arm}
       roughnessMap={set?.arm}
       metalness={0}
-      roughness={provMode ? 1 : 0.97}
+      roughness={0.97}
       envMapIntensity={0.35}
-      side={g.type === "poly" ? THREE.DoubleSide : THREE.FrontSide}
+      side={side}
     />
   );
 

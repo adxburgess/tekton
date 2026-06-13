@@ -1,4 +1,4 @@
-> ✅ Data aligned with docs/NOTRE_DAME_VERIFIED_CORPUS.md (adversarially verified, cited).
+> ⚠️ **STRUCTURE-ONLY DOCUMENT — DO NOT TRUST ANY DATA HERE (ticket ND-12).** This document's data layer was originally **FABRICATED**: it conflated Notre-Dame de **Reims** with the build target and cited a **non-existent "Nohesive 2019" survey**. Even where prose now reads "Paris," **none of the dimensions, sources, citations, or example values in this file may be used** — treat every number here as untrustworthy. This file is retained **ONLY** for pipeline / code structure (how to adapt `derive.mjs` / `verify.mjs` / `Viewer.tsx`). The **single source of truth for ALL Notre-Dame dimensions and sources is `docs/NOTRE_DAME_VERIFIED_CORPUS.md`** (the adversarially-verified, cited ND-1 corpus). When in doubt, use the corpus; never copy a value from here.
 
 # Notre-Dame Implementation Guide — Code Pattern Reuse from Nanchan
 
