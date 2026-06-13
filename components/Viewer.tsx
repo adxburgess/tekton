@@ -231,6 +231,7 @@ type TexKit = {
 
 const TIMBER_MATS = new Set(["zhu", "sumu", "door", "lv"]);
 const TIMBER_PHASES = new Set(["columns", "puzuo", "frame"]);
+const RECON_ZHU_PHASES = new Set(["columns", "puzuo", "frame"]);
 
 /** Photo-derived statue mesh: scaled so its height equals the measured chi value. */
 function GltfMember({ c, mode }: { c: Component; mode: ViewMode }) {
@@ -346,7 +347,12 @@ function Member({
       tintKey = "huiwa";
     } else if (isTimber) {
       set = g.type === "cylinder" || g.type === "lathe" ? tex.wood : tex.woodR;
-      tintKey = c.material && RECON_TINTS[c.material] ? c.material : "sumu";
+      tintKey =
+        c.material && RECON_TINTS[c.material]
+          ? c.material
+          : mode === "recon" && RECON_ZHU_PHASES.has(c.phase)
+            ? "zhu"
+            : "sumu";
     } else if (c.material === "bai") {
       // Use appropriate plaster texture based on mode
       set = mode === "recon" ? tex.cleanPlaster : tex.plaster;
@@ -376,12 +382,13 @@ function Member({
 
   const mat = (
     <meshStandardMaterial
+      key={`${mode}-${c.material ?? c.phase}`}
       color={color}
-      map={isReconWhiteWall ? undefined : set?.map}
-      normalMap={isReconWhiteWall ? undefined : set?.normalMap}
+      map={isReconWhiteWall ? null : set?.map ?? null}
+      normalMap={isReconWhiteWall ? null : set?.normalMap ?? null}
       normalScale={isReconWhiteWall ? undefined : set ? new THREE.Vector2(0.9, 0.9) : undefined}
-      aoMap={isReconWhiteWall ? undefined : set?.arm}
-      roughnessMap={isReconWhiteWall ? undefined : set?.arm}
+      aoMap={isReconWhiteWall ? null : set?.arm ?? null}
+      roughnessMap={isReconWhiteWall ? null : set?.arm ?? null}
       metalness={0}
       roughness={isReconWhiteWall ? 0.5 : provMode ? 1 : 0.97}
       envMapIntensity={0.35}
