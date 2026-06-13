@@ -6,6 +6,17 @@
 
 ---
 
+## Required reading (read before writing any code)
+
+Read these first, in order — **do not start `ND-2` until you've read the corpus and studied the Nanchan implementation:**
+
+1. **`docs/NOTRE_DAME_VERIFIED_CORPUS.md`** — the **only** source of Notre-Dame dimensions (adversarially verified + cited). Contains the canonical data skeleton, the rule-engine strategy, the V01–V14 verifier targets, the rights table, the 16 verdicts, and 40 known gaps. **Every number in `data/notre-dame-canonical.json` comes from here.**
+2. **The Nanchan implementation = your working template.** Mirror its structure, don't reinvent: `data/nanchan-canonical.json`, `scripts/derive.mjs` (rule engine, precedence, deviation logging), `scripts/verify.mjs` (the gate — V-checks recomputed from components, P-checks, V09), `scripts/demo.mjs` (corrupt/restore), `components/Viewer.tsx` (procedural R3F + provenance toggle).
+3. **The Verifier & Acceptance Gate** (Notion) / PRD §7 — the gate philosophy to preserve.
+4. **The PRD** — the why, the UX, the rights discipline.
+
+> ⚠️ **CRITICAL — the fabricated-data trap.** `docs/NOTRE_DAME_TECH_TEMPLATE.md`, `METHODOLOGY_FOR_NOTRE_DAME.md`, and `NOTRE_DAME_QUICKSTART.md` contain **fabricated data** — they describe Notre-Dame de *Reims* and cite a non-existent "Nohesive 2019" survey. Use them **only** for pipeline/code structure. **Never copy a dimension or a source from them.** All data comes from the verified corpus (#1); fixing those docs is ticket ND-12.
+
 ## 0. The one-line goal
 
 Ship an interactive 3D reconstruction of **Viollet-le-Duc's 1859 Notre-Dame spire**, derived from **public-domain drawings + Gothic geometric rules**, where **every component proves its source**, an **independent verifier gates the build**, and a **live URL responds**.
@@ -51,8 +62,8 @@ On failure: decide **rule engine vs geometry builder**, fix, re-run. **Keep ever
 
 | Ref | Ticket | Layer | Owner | Deps | Acceptance |
 |---|---|---|---|---|---|
-| ND-1 | Pull & verify spire corpus ✅ | Data | Claude | — | **Done** — 94 verified findings (Tallon, CNRS/De Luca, PD Viollet drawings) + rights table |
-| ND-2 | Scaffold `notre-dame-canonical.json` (spire) | Data | Claude | ND-1 | Parses; unit module = pied du roi (324.8 mm); every value `{provenance, source, url, rights}`; covers height, base square, taper, statue groups, rooster |
+| ND-1 | Pull & verify spire corpus ✅ | Data | Claude | — | **Done** — 94 verified findings → committed to `docs/NOTRE_DAME_VERIFIED_CORPUS.md` (16 verdicts, 40 gaps) |
+| ND-2 | Scaffold `notre-dame-canonical.json` (spire) | Data | Claude | ND-1 | **Source every value from `docs/NOTRE_DAME_VERIFIED_CORPUS.md`**; unit module = pied du roi (324.8 mm); `{provenance, source, url, rights}`; height, base square, taper, statue groups, rooster; mark unsourced fields as gaps, never invent |
 | ND-3 | Rights table (use / cite-only / neither) | Data | Claude | ND-1 | Each source classified; Tallon raw = cite-only, Viollet drawings = use; feeds the G09 registry |
 | ND-4 | Spire rule engine in `derive.mjs` | Rules | Claude | ND-2,3 | Emits `structural-spec.json` + `derivation-log.md`; every component `{provenance, source}`; shows arithmetic; logs deviations |
 | ND-14 | App structure — multi-building scene | Build | Claude | — | Spire scene reads its own spec via route/selector **without breaking Nanchan**; both load |
@@ -94,7 +105,7 @@ On failure: decide **rule engine vs geometry builder**, fix, re-run. **Keep ever
 ## 7. The `/goal` command
 
 ```
-/goal Build and ship the Notre-Dame de Paris spire (la flèche) reconstruction per docs/GOAL_NOTRE_DAME_SPIRE.md. Work the backlog ND-1..ND-32 in dependency order. Derive the spire from data/notre-dame-canonical.json + public-domain Viollet-le-Duc drawings and Gothic geometric rules into artifacts/structural-spec.json (every component tagged {provenance, source, url, rights}); render it procedurally in React Three Fiber with no imported meshes; and gate on scripts/verify.mjs — the deterministic geometry + pixel checks AND a vision-verifier sub-agent run in a fresh context. Loop derive -> verify -> screenshot -> vision-verify until green; on failure route the fix to the rule engine or the geometry builder and re-run; keep every failed verifier report. DONE when: npm run build (derive && verify && next build) exits 0 with zero unsourced components (G09 source-registry passes), the provenance toggle + drawing-to-3D reveal + construction sequence + click-to-inspect + the real-time Build Theater all work, no restricted assets are used, and a deployed URL responds. Never correct measured reality toward the Gothic ideal (V09); deviations are labeled, not fixed.
+/goal Build and ship the Notre-Dame de Paris spire (la flèche) reconstruction per docs/GOAL_NOTRE_DAME_SPIRE.md. First read that brief + docs/NOTRE_DAME_VERIFIED_CORPUS.md (the ONLY source of dimensions) and study the Nanchan implementation (scripts/derive.mjs, scripts/verify.mjs, components/Viewer.tsx, data/nanchan-canonical.json) as your template; NEVER use data from the fabricated Reims/Nohesive docs. Work the backlog ND-1..ND-32 in dependency order. Derive the spire from data/notre-dame-canonical.json + public-domain Viollet-le-Duc drawings and Gothic geometric rules into artifacts/structural-spec.json (every component tagged {provenance, source, url, rights}); render it procedurally in React Three Fiber with no imported meshes; and gate on scripts/verify.mjs — the deterministic geometry + pixel checks AND a vision-verifier sub-agent run in a fresh context. Loop derive -> verify -> screenshot -> vision-verify until green; on failure route the fix to the rule engine or the geometry builder and re-run; keep every failed verifier report. DONE when: npm run build (derive && verify && next build) exits 0 with zero unsourced components (G09 source-registry passes), the provenance toggle + drawing-to-3D reveal + construction sequence + click-to-inspect + the real-time Build Theater all work, no restricted assets are used, and a deployed URL responds. Never correct measured reality toward the Gothic ideal (V09); deviations are labeled, not fixed.
 ```
 
 ## 8. Orchestration notes
