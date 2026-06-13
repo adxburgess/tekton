@@ -22,21 +22,22 @@ const PROV_COLORS: Record<string, string> = {
 };
 
 const MATERIAL_COLORS: Record<string, string> = {
-  zhu: "#84432f",   // 朱 (weathered earth-vermilion)
-  bai: "#ddd2b9",   // 白 (aged lime)
-  huiwa: "#565b60", // 灰瓦
-  sumu: "#97795a",  // 素木
-  stone: "#9b9489",
-  door: "#5d2a1e",
+  zhu: "#a8402c",   // 朱 vermilion (Tang scheme)
+  bai: "#ece7dc",   // 白 lime white
+  huiwa: "#84878a", // 灰瓦 blue-grey tile
+  sumu: "#a98a64",  // 素木 plain timber
+  lv: "#2e6b4f",    // 绿 lattice-window green
+  stone: "#b9b4a8",
+  door: "#9c3a26",
 };
 
 const PHASE_COLORS: Record<string, string> = {
-  platform: "#9b9489",
-  columns: "#84432f",
-  puzuo: "#84432f",
-  frame: "#97795a",
-  roof: "#565b60",
-  enclosure: "#ddd2b9",
+  platform: "#b9b4a8",
+  columns: "#a8402c",
+  puzuo: "#a8402c",
+  frame: "#a8402c",
+  roof: "#84878a",
+  enclosure: "#ece7dc",
 };
 
 /** Stable per-component tone offset so timber doesn't look injection-molded. */
@@ -50,12 +51,12 @@ function makeTileTexture(vertical: boolean) {
   const c = document.createElement("canvas");
   c.width = c.height = 128;
   const g = c.getContext("2d")!;
-  g.fillStyle = "#62666b";
+  g.fillStyle = "#8b8e92";
   g.fillRect(0, 0, 128, 128);
   for (let p = 0; p < 128; p += 16) {
-    g.fillStyle = "rgba(10,12,14,0.30)";
+    g.fillStyle = "rgba(20,24,28,0.28)";
     vertical ? g.fillRect(p, 0, 3, 128) : g.fillRect(0, p, 128, 3);
-    g.fillStyle = "rgba(255,255,255,0.06)";
+    g.fillStyle = "rgba(255,255,255,0.10)";
     vertical ? g.fillRect(p + 8, 0, 6, 128) : g.fillRect(0, p + 8, 128, 6);
   }
   const t = new THREE.CanvasTexture(c);
@@ -95,7 +96,7 @@ function Member({
 
   const mat = (
     <meshStandardMaterial
-      color={map ? "#c8cbce" : color}
+      color={map ? "#dadcde" : color}
       map={map ?? undefined}
       roughness={provMode ? 1 : 0.85}
     />
@@ -140,12 +141,12 @@ export default function Viewer() {
       <Canvas camera={{ position: [16, 9, 19], fov: 42 }} shadows>
         <color attach="background" args={["#141416"]} />
         <fog attach="fog" args={["#141416", 36, 95]} />
-        <hemisphereLight args={["#3d4250", "#2a241d", provMode ? 0.3 : 0.7]} />
-        <ambientLight intensity={provMode ? 1.5 : 0.32} />
+        <hemisphereLight args={["#56688a", "#3a3026", provMode ? 0.3 : 0.85]} />
+        <ambientLight intensity={provMode ? 1.5 : 0.5} />
         <directionalLight
           position={[16, 26, 12]}
-          intensity={provMode ? 0.55 : 1.7}
-          color={provMode ? "#ffffff" : "#ffe8c8"}
+          intensity={provMode ? 0.55 : 1.9}
+          color={provMode ? "#ffffff" : "#fff0dc"}
           castShadow
           shadow-mapSize={[2048, 2048]}
           shadow-camera-left={-14}

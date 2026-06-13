@@ -1,11 +1,12 @@
 /* Locked design tokens (PRD §8) — the model applies these by name only. */
 :root {
-  /* 今貌 present-day palette */
-  --zhu: #84432f;        /* 朱 vermilion (weathered earth-vermilion) */
-  --bai: #ddd2b9;        /* 白 aged lime */
-  --huiwa: #565b60;      /* 灰瓦 grey tile */
-  --sumu: #97795a;       /* 素木 plain timber */
-  --stone: #9b9489;      /* platform masonry (derived neutral) */
+  /* Tang color scheme (ref: Danfeng Gate colored reconstruction) */
+  --zhu: #a8402c;        /* 朱 vermilion */
+  --bai: #ece7dc;        /* 白 lime white */
+  --huiwa: #84878a;      /* 灰瓦 blue-grey tile */
+  --sumu: #a98a64;       /* 素木 plain timber */
+  --lv: #2e6b4f;         /* 绿 lattice-window green */
+  --stone: #b9b4a8;      /* platform masonry (derived neutral) */
 
   /* Provenance layer */
   --prov-measured: #dca83f;       /* measured — bronze */

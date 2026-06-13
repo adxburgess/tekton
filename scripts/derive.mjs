@@ -654,12 +654,12 @@ for (const sx of [-1, 1]) {
     geometry: { type: "box", w: sideBay, h: 90, d: WALL_T }, position: [cx, 45, totalD / 2], material: "bai" });
   for (const [ri, ry] of [[0, 94], [1, WALL_H - 8]]) {
     comp({ ...encl, id: `rail-${sx > 0 ? "E" : "W"}${ri}`, name_zh: "窗额/腰串", name_en: "Window rail", role: "Lattice window frame rail.",
-      geometry: { type: "box", w: sideBay, h: 8, d: 10 }, position: [cx, ry + 4, totalD / 2], material: "sumu" });
+      geometry: { type: "box", w: sideBay, h: 8, d: 10 }, position: [cx, ry + 4, totalD / 2], material: "zhu" });
   }
   for (let k = 1; k <= 11; k++) {
     const bx = sx * (centralBay / 2) + sx * (k * sideBay / 12);
     comp({ ...encl, id: `ling-${sx > 0 ? "E" : "W"}${k}`, name_zh: "直棂窗棂条", name_en: "Lattice window bar", role: "Vertical bar of the 直棂窗 — the early straight-mullion window type.",
-      geometry: { type: "box", w: 4, h: WALL_H - 90 - 12, d: 6 }, position: [bx, 90 + (WALL_H - 90 - 12) / 2 + 4, totalD / 2], material: "sumu" });
+      geometry: { type: "box", w: 4, h: WALL_H - 90 - 12, d: 6 }, position: [bx, 90 + (WALL_H - 90 - 12) / 2 + 4, totalD / 2], material: "lv" });
   }
   // central-bay door leaves
   comp({ ...encl, id: `door-${sx > 0 ? "E" : "W"}`, name_zh: "板门", name_en: "Plank door leaf", role: "Double plank door of the central bay.",
