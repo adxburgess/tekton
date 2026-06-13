@@ -333,7 +333,7 @@ function VerifierHUD() {
   const checks = (report as any).checks?.filter((c: any) => c.method === "spec-geometry") ?? [];
   const summary = (report as any).summary ?? { pass: 0, total: 0 };
   return (
-    <div style={{ position: "absolute", top: 22, right: 26, width: 252, background: "#1c1d20cc", border: "1px solid #3a3833", padding: 12, fontSize: 11, backdropFilter: "blur(4px)" }}>
+    <div style={{ position: "absolute", top: 64, right: 26, width: 252, background: "#1c1d20cc", border: "1px solid #3a3833", padding: 12, fontSize: 11, backdropFilter: "blur(4px)" }}>
       <div style={{ display: "flex", justifyContent: "space-between", color: "#cfc8b8", letterSpacing: 1, marginBottom: 6 }}>
         <span>VERIFIER</span>
         <span style={{ color: summary.fail ? "#b34a38" : "#7bbf7b" }}>{summary.pass}/{summary.total} ✓</span>

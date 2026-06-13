@@ -9,15 +9,16 @@
  */
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import BrandMark from "./BrandMark";
 
 const SpireViewer = dynamic(() => import("./SpireViewer"), { ssr: false });
 const TowersViewer = dynamic(() => import("./TowersViewer"), { ssr: false });
 const NanchanViewer = dynamic(() => import("./Viewer"), { ssr: false });
 
 const BUILDINGS: { key: string; label: string }[] = [
-  { key: "notre-dame", label: "Notre-Dame · flèche" },
-  { key: "notre-dame-towers", label: "Notre-Dame · façade" },
-  { key: "nanchan", label: "南禅寺 Nanchan" },
+  { key: "notre-dame", label: "Notre-Dame · Spire" },
+  { key: "notre-dame-towers", label: "Notre-Dame · Towers" },
+  { key: "nanchan", label: "Nanchan Temple" },
 ];
 
 export default function BuildingRouter() {
@@ -46,6 +47,7 @@ export default function BuildingRouter() {
 
   return (
     <>
+      <BrandMark />
       <div
         style={{
           position: "fixed", top: 14, left: "50%", transform: "translateX(-50%)", zIndex: 100,
