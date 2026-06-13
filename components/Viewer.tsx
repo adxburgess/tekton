@@ -347,8 +347,13 @@ function Member({
       set = g.type === "cylinder" || g.type === "lathe" ? tex.wood : tex.woodR;
       tintKey = c.material && RECON_TINTS[c.material] ? c.material : "sumu";
     } else if (c.material === "bai") {
-      set = tex.plaster;
-      tintKey = "bai";
+      // In recon mode, use clean white plaster; in today mode, use worn plaster texture
+      if (mode !== "today") {
+        tintKey = "bai";
+      } else {
+        set = tex.plaster;
+        tintKey = "bai";
+      }
     } else if (c.material === "stone" || c.phase === "platform") {
       set = tex.stone;
       tintKey = "stone";
