@@ -378,11 +378,11 @@ function Member({
   const mat = (
     <meshStandardMaterial
       color={color}
-      map={set?.map}
-      normalMap={set?.normalMap}
-      normalScale={set ? new THREE.Vector2(0.9, 0.9) : undefined}
-      aoMap={set?.arm}
-      roughnessMap={set?.arm}
+      map={!provMode && mode === "recon" && c.material === "bai" ? undefined : set?.map}
+      normalMap={!provMode && mode === "recon" && c.material === "bai" ? undefined : set?.normalMap}
+      normalScale={!provMode && mode === "recon" && c.material === "bai" ? undefined : set ? new THREE.Vector2(0.9, 0.9) : undefined}
+      aoMap={!provMode && mode === "recon" && c.material === "bai" ? undefined : set?.arm}
+      roughnessMap={!provMode && mode === "recon" && c.material === "bai" ? undefined : set?.arm}
       metalness={0}
       roughness={provMode ? 1 : 0.97}
       envMapIntensity={0.35}
