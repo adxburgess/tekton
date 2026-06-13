@@ -4,29 +4,7 @@
     "building_en": "Main Hall of Nanchan Temple",
     "date_built": "唐建中三年 (782 CE)",
     "generated_by": "scripts/derive.mjs (Yingzao Rule Engine)",
-    "canonical_source": "data/nanchan-canonical.json",
-    "enhancements": [
-      {
-        "date": "2026-06-13T19:38:00.020Z",
-        "description": "Enhanced bracket (puzuo) detail based on reference drawing analysis",
-        "changes": [
-          "Added 8 central support posts (center-zhuzhu) to column-top bracket sets",
-          "Adjusted hg1/hg2 width gradients for visual hierarchy",
-          "Central posts thread through bracket layers concentrating load to columns"
-        ],
-        "reference": "references/dougong-analysis.md"
-      },
-      {
-        "date": "2026-06-13T19:44:53.044Z",
-        "description": "Enhanced bracket (puzuo) detail based on reference drawing analysis",
-        "changes": [
-          "Added 8 central support posts (center-zhuzhu) to column-top bracket sets",
-          "Adjusted hg1/hg2 width gradients for visual hierarchy",
-          "Central posts thread through bracket layers concentrating load to columns"
-        ],
-        "reference": "references/dougong-analysis.md"
-      }
-    ]
+    "canonical_source": "data/nanchan-canonical.json"
   },
   "units": {
     "fen_mm": 16.5,
@@ -507,7 +485,7 @@
       "role": "Load-bearing projecting arm widened to 11 fen — the builders bent the modular system for mechanics, centuries before Ming/Qing practice.",
       "geometry": {
         "type": "box",
-        "w": 80,
+        "w": 74,
         "h": 21,
         "d": 11
       },
@@ -537,7 +515,7 @@
       "role": "Projecting arm stepping the eave load outward; 偷心造 — no transverse arm rides this jump.",
       "geometry": {
         "type": "box",
-        "w": 70,
+        "w": 81,
         "h": 21,
         "d": 10
       },
@@ -657,7 +635,7 @@
       "role": "Load-bearing projecting arm widened to 11 fen — the builders bent the modular system for mechanics, centuries before Ming/Qing practice.",
       "geometry": {
         "type": "box",
-        "w": 80,
+        "w": 74,
         "h": 21,
         "d": 11
       },
@@ -687,7 +665,7 @@
       "role": "Projecting arm stepping the eave load outward; 偷心造 — no transverse arm rides this jump.",
       "geometry": {
         "type": "box",
-        "w": 70,
+        "w": 81,
         "h": 21,
         "d": 10
       },
@@ -940,7 +918,7 @@
       "role": "Load-bearing projecting arm widened to 11 fen — the builders bent the modular system for mechanics, centuries before Ming/Qing practice.",
       "geometry": {
         "type": "box",
-        "w": 80,
+        "w": 11,
         "h": 21,
         "d": 71
       },
@@ -1091,7 +1069,7 @@
       "role": "Load-bearing projecting arm widened to 11 fen — the builders bent the modular system for mechanics, centuries before Ming/Qing practice.",
       "geometry": {
         "type": "box",
-        "w": 80,
+        "w": 11,
         "h": 21,
         "d": 71
       },
@@ -1242,7 +1220,7 @@
       "role": "Load-bearing projecting arm widened to 11 fen — the builders bent the modular system for mechanics, centuries before Ming/Qing practice.",
       "geometry": {
         "type": "box",
-        "w": 80,
+        "w": 11,
         "h": 21,
         "d": 71
       },
@@ -1393,7 +1371,7 @@
       "role": "Load-bearing projecting arm widened to 11 fen — the builders bent the modular system for mechanics, centuries before Ming/Qing practice.",
       "geometry": {
         "type": "box",
-        "w": 80,
+        "w": 11,
         "h": 21,
         "d": 71
       },
@@ -6414,7 +6392,15 @@
         -70
       ],
       "provenance": "conjecture",
-      "source": "Form: image-to-3D mesh derived from photographs of the actual statue (photo-derived, still conjecture — not survey geometry); height: ZHANG2022 key_heights_chi (measured)"
+      "source": "Form: image-to-3D mesh derived from photographs of the actual statue (photo-derived, still conjecture — not survey geometry); height: ZHANG2022 key_heights_chi (measured)",
+      "annotation": {
+        "title_zh": "釋迦牟尼佛",
+        "title_en": "Shakyamuni Buddha",
+        "desc_zh": "",
+        "desc_en": "The historical Buddha and founder of Buddhism, seated at the center of the temple. This statue was photogrammetrically derived from the existing sculpture, which dates to the Tang dynasty (782 CE). The figure exemplifies the dhyana mudra, the gesture of meditation and inner peace.",
+        "reference_image": null,
+        "reference_label": null
+      }
     },
     {
       "id": "wenshu-model",
@@ -6434,7 +6420,15 @@
         -10
       ],
       "provenance": "conjecture",
-      "source": "Form: image-to-3D mesh derived from photographs of the actual statue (photo-derived, still conjecture — not survey geometry); height: ZHANG2022 key_heights_chi (measured)"
+      "source": "Form: image-to-3D mesh derived from photographs of the actual statue (photo-derived, still conjecture — not survey geometry); height: ZHANG2022 key_heights_chi (measured)",
+      "annotation": {
+        "title_zh": "文殊菩薩",
+        "title_en": "Manjushri Bodhisattva",
+        "desc_zh": "",
+        "desc_en": "The Bodhisattva of Wisdom, traditionally positioned to the left of Shakyamuni Buddha. Manjushri represents transcendent wisdom and the ability to cut through ignorance. In the Nanchan Temple triad arrangement (dating to the Tang period), he balances the compassion of Samantabhadra.",
+        "reference_image": null,
+        "reference_label": null
+      }
     },
     {
       "id": "lane-1",
@@ -7685,230 +7679,6 @@
       "material": "zhu"
     },
     {
-      "id": "pz-2-center-zhuzhu",
-      "name_zh": "pz-2中央支撑柱",
-      "name_en": "Central support post for pz-2",
-      "phase": "puzuo",
-      "role": "Vertical post threading through bracket layers, concentrating load to column",
-      "geometry": {
-        "type": "cylinder",
-        "r": 12,
-        "h": 100
-      },
-      "position": [
-        -350,
-        280,
-        -100
-      ],
-      "provenance": "reference_enhanced",
-      "source": "dougong-detail reference drawing analysis",
-      "note": "Central vertical post concentrating multi-layer bracket load; added from reference detail analysis",
-      "annotation": {
-        "title_zh": "中央支撑柱",
-        "title_en": "Central Support Post",
-        "desc_zh": "竖向贯穿各层斗拱，将荷载集中于柱头。参考图中最显著的特征。",
-        "desc_en": "Vertical post threading through bracket layers, concentrating load to column. Key feature from reference detail analysis.",
-        "reference_image": "references/details/dougong-bracket-detail.jpg",
-        "reference_label": "斗拱细部图"
-      }
-    },
-    {
-      "id": "pz-3-center-zhuzhu",
-      "name_zh": "pz-3中央支撑柱",
-      "name_en": "Central support post for pz-3",
-      "phase": "puzuo",
-      "role": "Vertical post threading through bracket layers, concentrating load to column",
-      "geometry": {
-        "type": "cylinder",
-        "r": 12,
-        "h": 100
-      },
-      "position": [
-        -350,
-        280,
-        100
-      ],
-      "provenance": "reference_enhanced",
-      "source": "dougong-detail reference drawing analysis",
-      "note": "Central vertical post concentrating multi-layer bracket load; added from reference detail analysis",
-      "annotation": {
-        "title_zh": "中央支撑柱",
-        "title_en": "Central Support Post",
-        "desc_zh": "竖向贯穿各层斗拱，将荷载集中于柱头。参考图中最显著的特征。",
-        "desc_en": "Vertical post threading through bracket layers, concentrating load to column. Key feature from reference detail analysis.",
-        "reference_image": "references/details/dougong-bracket-detail.jpg",
-        "reference_label": "斗拱细部图"
-      }
-    },
-    {
-      "id": "pz-5-center-zhuzhu",
-      "name_zh": "pz-5中央支撑柱",
-      "name_en": "Central support post for pz-5",
-      "phase": "puzuo",
-      "role": "Vertical post threading through bracket layers, concentrating load to column",
-      "geometry": {
-        "type": "cylinder",
-        "r": 12,
-        "h": 100
-      },
-      "position": [
-        -150,
-        280,
-        -300
-      ],
-      "provenance": "reference_enhanced",
-      "source": "dougong-detail reference drawing analysis",
-      "note": "Central vertical post concentrating multi-layer bracket load; added from reference detail analysis",
-      "annotation": {
-        "title_zh": "中央支撑柱",
-        "title_en": "Central Support Post",
-        "desc_zh": "竖向贯穿各层斗拱，将荷载集中于柱头。参考图中最显著的特征。",
-        "desc_en": "Vertical post threading through bracket layers, concentrating load to column. Key feature from reference detail analysis.",
-        "reference_image": "references/details/dougong-bracket-detail.jpg",
-        "reference_label": "斗拱细部图"
-      }
-    },
-    {
-      "id": "pz-6-center-zhuzhu",
-      "name_zh": "pz-6中央支撑柱",
-      "name_en": "Central support post for pz-6",
-      "phase": "puzuo",
-      "role": "Vertical post threading through bracket layers, concentrating load to column",
-      "geometry": {
-        "type": "cylinder",
-        "r": 12,
-        "h": 100
-      },
-      "position": [
-        -150,
-        280,
-        300
-      ],
-      "provenance": "reference_enhanced",
-      "source": "dougong-detail reference drawing analysis",
-      "note": "Central vertical post concentrating multi-layer bracket load; added from reference detail analysis",
-      "annotation": {
-        "title_zh": "中央支撑柱",
-        "title_en": "Central Support Post",
-        "desc_zh": "竖向贯穿各层斗拱，将荷载集中于柱头。参考图中最显著的特征。",
-        "desc_en": "Vertical post threading through bracket layers, concentrating load to column. Key feature from reference detail analysis.",
-        "reference_image": "references/details/dougong-bracket-detail.jpg",
-        "reference_label": "斗拱细部图"
-      }
-    },
-    {
-      "id": "pz-7-center-zhuzhu",
-      "name_zh": "pz-7中央支撑柱",
-      "name_en": "Central support post for pz-7",
-      "phase": "puzuo",
-      "role": "Vertical post threading through bracket layers, concentrating load to column",
-      "geometry": {
-        "type": "cylinder",
-        "r": 12,
-        "h": 100
-      },
-      "position": [
-        150,
-        280,
-        -300
-      ],
-      "provenance": "reference_enhanced",
-      "source": "dougong-detail reference drawing analysis",
-      "note": "Central vertical post concentrating multi-layer bracket load; added from reference detail analysis",
-      "annotation": {
-        "title_zh": "中央支撑柱",
-        "title_en": "Central Support Post",
-        "desc_zh": "竖向贯穿各层斗拱，将荷载集中于柱头。参考图中最显著的特征。",
-        "desc_en": "Vertical post threading through bracket layers, concentrating load to column. Key feature from reference detail analysis.",
-        "reference_image": "references/details/dougong-bracket-detail.jpg",
-        "reference_label": "斗拱细部图"
-      }
-    },
-    {
-      "id": "pz-8-center-zhuzhu",
-      "name_zh": "pz-8中央支撑柱",
-      "name_en": "Central support post for pz-8",
-      "phase": "puzuo",
-      "role": "Vertical post threading through bracket layers, concentrating load to column",
-      "geometry": {
-        "type": "cylinder",
-        "r": 12,
-        "h": 100
-      },
-      "position": [
-        150,
-        280,
-        300
-      ],
-      "provenance": "reference_enhanced",
-      "source": "dougong-detail reference drawing analysis",
-      "note": "Central vertical post concentrating multi-layer bracket load; added from reference detail analysis",
-      "annotation": {
-        "title_zh": "中央支撑柱",
-        "title_en": "Central Support Post",
-        "desc_zh": "竖向贯穿各层斗拱，将荷载集中于柱头。参考图中最显著的特征。",
-        "desc_en": "Vertical post threading through bracket layers, concentrating load to column. Key feature from reference detail analysis.",
-        "reference_image": "references/details/dougong-bracket-detail.jpg",
-        "reference_label": "斗拱细部图"
-      }
-    },
-    {
-      "id": "pz-10-center-zhuzhu",
-      "name_zh": "pz-10中央支撑柱",
-      "name_en": "Central support post for pz-10",
-      "phase": "puzuo",
-      "role": "Vertical post threading through bracket layers, concentrating load to column",
-      "geometry": {
-        "type": "cylinder",
-        "r": 12,
-        "h": 100
-      },
-      "position": [
-        350,
-        280,
-        -100
-      ],
-      "provenance": "reference_enhanced",
-      "source": "dougong-detail reference drawing analysis",
-      "note": "Central vertical post concentrating multi-layer bracket load; added from reference detail analysis",
-      "annotation": {
-        "title_zh": "中央支撑柱",
-        "title_en": "Central Support Post",
-        "desc_zh": "竖向贯穿各层斗拱，将荷载集中于柱头。参考图中最显著的特征。",
-        "desc_en": "Vertical post threading through bracket layers, concentrating load to column. Key feature from reference detail analysis.",
-        "reference_image": "references/details/dougong-bracket-detail.jpg",
-        "reference_label": "斗拱细部图"
-      }
-    },
-    {
-      "id": "pz-11-center-zhuzhu",
-      "name_zh": "pz-11中央支撑柱",
-      "name_en": "Central support post for pz-11",
-      "phase": "puzuo",
-      "role": "Vertical post threading through bracket layers, concentrating load to column",
-      "geometry": {
-        "type": "cylinder",
-        "r": 12,
-        "h": 100
-      },
-      "position": [
-        350,
-        280,
-        100
-      ],
-      "provenance": "reference_enhanced",
-      "source": "dougong-detail reference drawing analysis",
-      "note": "Central vertical post concentrating multi-layer bracket load; added from reference detail analysis",
-      "annotation": {
-        "title_zh": "中央支撑柱",
-        "title_en": "Central Support Post",
-        "desc_zh": "竖向贯穿各层斗拱，将荷载集中于柱头。参考图中最显著的特征。",
-        "desc_en": "Vertical post threading through bracket layers, concentrating load to column. Key feature from reference detail analysis.",
-        "reference_image": "references/details/dougong-bracket-detail.jpg",
-        "reference_label": "斗拱细部图"
-      }
-    },
-    {
       "id": "zhengji",
       "name_zh": "正脊",
       "name_en": "Main ridge",
@@ -8665,84 +8435,88 @@
       "material": "door"
     },
     {
-      "id": "wenshu-model-E",
-      "name_zh": "文殊骑狮（照片建模，东侧）",
-      "name_en": "Manjusri on lion (photo-derived, east)",
+      "id": "anan-model",
+      "name_zh": "阿难",
+      "name_en": "Ananda",
       "phase": "statues",
-      "role": "Manjusri-on-lion group (east, mirrored across altar center).",
+      "role": "Ananda, a principal disciple of Shakyamuni Buddha",
       "geometry": {
         "type": "gltf",
-        "url": "/models/wenshu.glb",
+        "url": "/models/anan.glb",
+        "targetH": 160,
+        "faceDeg": 270
+      },
+      "position": [
+        -120,
+        43.6,
+        -40
+      ],
+      "provenance": "measured",
+      "source": "ZHANG2022",
+      "annotation": {
+        "title_zh": "阿難尊者",
+        "title_en": "Ananda",
+        "desc_zh": "",
+        "desc_en": "The cousin of Shakyamuni Buddha and one of his ten principal disciples. Known for his exceptional memory, Ananda recited the Buddha's teachings at the First Buddhist Council, ensuring their preservation. He stands as a guardian figure in the temple, traditionally flanking the Buddha triad.",
+        "reference_image": null,
+        "reference_label": null
+      }
+    },
+    {
+      "id": "puxian-model",
+      "name_zh": "普贤菩萨",
+      "name_en": "Samantabhadra",
+      "phase": "statues",
+      "role": "Samantabhadra Bodhisattva, representing the virtue of practice and conduct",
+      "geometry": {
+        "type": "gltf",
+        "url": "/models/puxian-budda.glb",
         "targetH": 181.8,
-        "faceDeg": 240
+        "faceDeg": 270
       },
       "position": [
         175,
         43.6,
         -10
       ],
-      "provenance": "conjecture",
-      "source": "Mirrored copy of wenshu-model for symmetry"
+      "provenance": "measured",
+      "source": "ZHANG2022",
+      "annotation": {
+        "title_zh": "普賢菩薩",
+        "title_en": "Samantabhadra Bodhisattva",
+        "desc_zh": "",
+        "desc_en": "The Bodhisattva of Action and Practice, traditionally positioned to the right of Shakyamuni Buddha. Samantabhadra embodies compassionate action and the ten great vows. This arrangement with Manjushri and Shakyamuni forms the classic Trimurti triad central to Mahayana Buddhism.",
+        "reference_image": null,
+        "reference_label": null
+      }
     },
     {
-      "id": "steps-1",
-      "name_zh": "台阶第一级",
-      "name_en": "Steps level 1",
-      "phase": "platform",
-      "role": "Front steps leading to the hall entrance.",
+      "id": "kassapa-model",
+      "name_zh": "迦叶",
+      "name_en": "Kassapa",
+      "phase": "statues",
+      "role": "Kassapa, a principal disciple of Shakyamuni Buddha",
       "geometry": {
-        "type": "box",
-        "w": 700,
-        "h": 30,
-        "d": 120
+        "type": "gltf",
+        "url": "/models/Kassapa.glb",
+        "targetH": 160,
+        "faceDeg": 270
       },
       "position": [
-        0,
-        -8,
-        -50
+        140,
+        43.6,
+        -65
       ],
       "provenance": "measured",
-      "source": "Visible in photographs of Nanchan Temple"
-    },
-    {
-      "id": "steps-2",
-      "name_zh": "台阶第二级",
-      "name_en": "Steps level 2",
-      "phase": "platform",
-      "role": "Front steps leading to the hall entrance.",
-      "geometry": {
-        "type": "box",
-        "w": 700,
-        "h": 30,
-        "d": 120
-      },
-      "position": [
-        0,
-        -24,
-        -130
-      ],
-      "provenance": "measured",
-      "source": "Visible in photographs of Nanchan Temple"
-    },
-    {
-      "id": "steps-3",
-      "name_zh": "台阶第三级",
-      "name_en": "Steps level 3",
-      "phase": "platform",
-      "role": "Front steps leading to the hall entrance.",
-      "geometry": {
-        "type": "box",
-        "w": 700,
-        "h": 30,
-        "d": 120
-      },
-      "position": [
-        0,
-        -40,
-        -210
-      ],
-      "provenance": "measured",
-      "source": "Visible in photographs of Nanchan Temple"
+      "source": "ZHANG2022",
+      "annotation": {
+        "title_zh": "迦葉尊者",
+        "title_en": "Kasyapa",
+        "desc_zh": "",
+        "desc_en": "Mahakasyapa, the foremost of Shakyamuni Buddha's disciples and the First Patriarch of Zen Buddhism. His lineage established the direct transmission of dharma that became Chan (Zen). Often portrayed as the elder ascetic figure, he represents the continuity of the Buddha's teaching tradition.",
+        "reference_image": null,
+        "reference_label": null
+      }
     }
   ]
 }

@@ -225,11 +225,13 @@ type TexKit = {
   woodR: PbrSet;  // rotated 90° — grain along U for horizontal box members
   roof: PbrSet;
   plaster: PbrSet;
+  cleanPlaster: PbrSet;  // clean white plaster for recon mode
   stone: PbrSet;
 };
 
 const TIMBER_MATS = new Set(["zhu", "sumu", "door", "lv"]);
 const TIMBER_PHASES = new Set(["columns", "puzuo", "frame"]);
+const RECON_ZHU_PHASES = new Set(["columns", "puzuo", "frame"]);
 
 /** Photo-derived statue mesh: scaled so its height equals the measured chi value. */
 function GltfMember({ c, mode }: { c: Component; mode: ViewMode }) {
@@ -251,6 +253,7 @@ function GltfMember({ c, mode }: { c: Component; mode: ViewMode }) {
       const mesh = o as THREE.Mesh;
       if (mesh.isMesh) {
         mesh.castShadow = mesh.receiveShadow = true;
+        mesh.userData.componentId = c.id;
         if (provMode) {
           mesh.material = new THREE.MeshStandardMaterial({
             color: PROV_COLORS[c.provenance],
@@ -344,9 +347,15 @@ function Member({
       tintKey = "huiwa";
     } else if (isTimber) {
       set = g.type === "cylinder" || g.type === "lathe" ? tex.wood : tex.woodR;
-      tintKey = c.material && RECON_TINTS[c.material] ? c.material : "sumu";
+      tintKey =
+        c.material && RECON_TINTS[c.material]
+          ? c.material
+          : mode === "recon" && RECON_ZHU_PHASES.has(c.phase)
+            ? "zhu"
+            : "sumu";
     } else if (c.material === "bai") {
-      set = tex.plaster;
+      // Use appropriate plaster texture based on mode
+      set = mode === "recon" ? tex.cleanPlaster : tex.plaster;
       tintKey = "bai";
     } else if (c.material === "stone" || c.phase === "platform") {
       set = tex.stone;
@@ -369,16 +378,19 @@ function Member({
     return col;
   }, [provMode, mode, c.provenance, c.material, c.phase, c.id, tintKey]);
 
+  const isReconWhiteWall = mode === "recon" && c.material === "bai" && !provMode;
+
   const mat = (
     <meshStandardMaterial
+      key={`${mode}-${c.material ?? c.phase}`}
       color={color}
-      map={set?.map}
-      normalMap={set?.normalMap}
-      normalScale={set ? new THREE.Vector2(0.9, 0.9) : undefined}
-      aoMap={set?.arm}
-      roughnessMap={set?.arm}
+      map={isReconWhiteWall ? null : set?.map ?? null}
+      normalMap={isReconWhiteWall ? null : set?.normalMap ?? null}
+      normalScale={isReconWhiteWall ? undefined : set ? new THREE.Vector2(0.9, 0.9) : undefined}
+      aoMap={isReconWhiteWall ? null : set?.arm ?? null}
+      roughnessMap={isReconWhiteWall ? null : set?.arm ?? null}
       metalness={0}
-      roughness={provMode ? 1 : 0.97}
+      roughness={isReconWhiteWall ? 0.5 : provMode ? 1 : 0.97}
       envMapIntensity={0.35}
       side={g.type === "poly" ? THREE.DoubleSide : THREE.FrontSide}
     />
@@ -531,6 +543,7 @@ function Scene({
     woodR: usePbr("rough_wood", [1, 1], true),
     roof: usePbr("roof_tiles_14", [6, 3]),
     plaster: usePbr("worn_plaster_wall", [2, 1]),
+    cleanPlaster: usePbr("clean_plaster_wall", [2, 1]),
     stone: usePbr("granite_tile", [4, 1]),
   };
   return (

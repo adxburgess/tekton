@@ -1,13 +1,14 @@
 {
-  "generated_at": "2026-06-13T01:21:00.500Z",
+  "generated_at": "2026-06-13T19:57:19.490Z",
   "spec": "artifacts/structural-spec.json",
   "screenshot_refresh": {
-    "refreshed": true
+    "refreshed": false,
+    "note": "viewer not reachable at http://localhost:3003; grading existing PNGs"
   },
   "summary": {
     "total": 20,
-    "pass": 20,
-    "fail": 0,
+    "pass": 19,
+    "fail": 1,
     "critical_failures": []
   },
   "checks": [
@@ -155,7 +156,7 @@
       "method": "spec-geometry",
       "pass": true,
       "measured": {
-        "total": 431,
+        "total": 388,
         "unsourced": [],
         "conjecture_required": 144,
         "misclassed": []
@@ -188,8 +189,9 @@
       "method": "pixels",
       "pass": true,
       "measured": {
-        "non_background": "32.6%"
-      }
+        "non_background": "72.1%"
+      },
+      "note": "PNG predates structural-spec.json — re-run screenshots"
     },
     {
       "id": "P02-front",
@@ -197,8 +199,9 @@
       "method": "pixels",
       "pass": true,
       "measured": {
-        "non_background": "24.8%"
-      }
+        "non_background": "60.3%"
+      },
+      "note": "PNG predates structural-spec.json — re-run screenshots"
     },
     {
       "id": "P02-bracket",
@@ -206,8 +209,9 @@
       "method": "pixels",
       "pass": true,
       "measured": {
-        "non_background": "86.3%"
-      }
+        "non_background": "98.6%"
+      },
+      "note": "PNG predates structural-spec.json — re-run screenshots"
     },
     {
       "id": "P02-eave",
@@ -215,8 +219,9 @@
       "method": "pixels",
       "pass": true,
       "measured": {
-        "non_background": "61.4%"
-      }
+        "non_background": "89.4%"
+      },
+      "note": "PNG predates structural-spec.json — re-run screenshots"
     },
     {
       "id": "P02-altar",
@@ -224,8 +229,9 @@
       "method": "pixels",
       "pass": true,
       "measured": {
-        "non_background": "32.6%"
-      }
+        "non_background": "95.4%"
+      },
+      "note": "PNG predates structural-spec.json — re-run screenshots"
     },
     {
       "id": "P02-provenance",
@@ -233,20 +239,21 @@
       "method": "pixels",
       "pass": true,
       "measured": {
-        "non_background": "59.6%"
-      }
+        "non_background": "56.8%"
+      },
+      "note": "PNG predates structural-spec.json — re-run screenshots"
     },
     {
       "id": "P03",
       "assert": "provenance view shows all four evidence-class colors",
       "method": "pixels",
-      "pass": true,
+      "pass": false,
       "measured": {
         "class_pixel_pct": {
-          "measured": 0.354,
-          "reconstructed_design": 0.706,
-          "rule_derived": 0.063,
-          "conjecture": 10.963
+          "measured": 0.011,
+          "reconstructed_design": 0.011,
+          "rule_derived": 0.057,
+          "conjecture": 0
         }
       }
     }

@@ -113,11 +113,12 @@ const handleCanvasClick = (event: THREE.Intersection[]) => {
 
 ## 优先级实施
 
-### Phase 1（必须）
-- [x] 为斗拱部件添加 `annotation` 字段
-- [ ] 创建 AnnotationPanel 组件
-- [ ] 在 Viewer 中添加 Raycaster 和点击处理
-- [ ] 显示标注面板
+### Phase 1（已完成 ✅）
+- [x] 为斗拱部件添加 `annotation` 字段 — 64个部件添加了annotation数据
+- [x] 创建 AnnotationPanel 组件 — components/AnnotationPanel.tsx 完成
+- [x] 在 Viewer 中添加 Raycaster 和点击处理 — ClickHandler.tsx + Viewer.tsx 集成
+- [x] 显示标注面板 — Viewer.tsx中完整实现
+- [x] 导入样式表 — annotation.css 已在 app/layout.tsx 中导入
 
 ### Phase 2（可选）
 - [ ] 绘制 leader line
@@ -143,9 +144,34 @@ const handleCanvasClick = (event: THREE.Intersection[]) => {
 
 ---
 
-## 立即开始？
+---
 
-你想先从哪步开始？
-1. 为关键部件（如斗拱）添加标注数据
-2. 创建 AnnotationPanel UI 组件
-3. 改造 Viewer 添加交互
+## ✅ 实现完成
+
+### 已实现的功能
+1. **点击检测** — ClickHandler.tsx通过Raycaster实现3D模型点击
+   - 归一化鼠标坐标
+   - 遍历场景所有Mesh对象
+   - 转换世界坐标到屏幕坐标
+   - 触发onComponentClick回调
+
+2. **状态管理** — Viewer.tsx中管理标注UI状态
+   - selectedComponent：存储被选中部件信息（含annotation字段）
+   - annotationPos：存储标注框屏幕位置
+
+3. **标注面板** — AnnotationPanel.tsx完整的UI组件
+   - 显示中英文标题、说明文本
+   - 参考图片的可折叠显示
+   - Leader line (虚线)指向被点击部件
+   - 点击X或遮罩关闭面板
+
+4. **样式支持** — annotation.css
+   - 面板动画（slideIn）
+   - 响应式设计（768px/480px断点）
+   - leader line虚线样式
+
+### 下一步（可选增强）
+- [ ] 在leader line上添加动画效果
+- [ ] 标注面板的拖动功能
+- [ ] 标注数据的在线编辑界面
+- [ ] 按分类筛选标注显示
