@@ -1,3 +1,13 @@
+> # ⚠️ DATA UNVERIFIED — DO NOT BUILD ON THESE NUMBERS
+>
+> The **data layer** in this document is AI-generated placeholder (`Co-Authored-By: Claude Haiku 4.5`) and was never fact-checked. It contains fabricated sources and the **wrong building**. Confirmed errors:
+> - Describes Notre-Dame de **Reims** (dates 1211–1430). The cathedral that burned in 2019 is Notre-Dame de **Paris** (begun ~1163, nave vault ~33 m).
+> - `"Nohesive 2019 point cloud"` **does not exist** — yet it is cited as the source for nearly every "measured" value. The real survey is **Andrew Tallon** (~2015, ~1 billion points).
+> - Citations "Mercier 2015," "Delbrueck 1898," "Courville quarry XRF," "Tsinghua 2011" are fabricated or copied from the Nanchan corpus.
+> - Internal contradiction: nave bay spacing listed as both 4.95 m (a Nanchan copy-paste artifact) and 9.5 m.
+>
+> ✅ The **methodology and pipeline structure below are sound and reusable.** Only the dimensions and sources are invalid. A verified, cited corpus (Tallon, CNRS/Livio De Luca post-fire data, public-domain Viollet-le-Duc spire drawings) is being substituted in. — flagged by Claude, 2026-06-13
+
 # Notre-Dame Rebuild — Methodology & Self-Verification
 
 ## One-Sentence Version

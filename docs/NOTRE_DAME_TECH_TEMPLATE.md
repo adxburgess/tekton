@@ -1,3 +1,13 @@
+> # ⚠️ DATA UNVERIFIED — DO NOT BUILD ON THESE NUMBERS
+>
+> The **data layer** in this document is AI-generated placeholder (`Co-Authored-By: Claude Haiku 4.5`) and was never fact-checked. It contains fabricated sources and the **wrong building**. Confirmed errors:
+> - The canonical JSON below says `"Notre-Dame Cathedral, Reims"` / dates 1211–1430. The cathedral that burned in 2019 is Notre-Dame de **Paris** (begun ~1163, nave vault ~33 m).
+> - `"Nohesive 2019 point cloud"` **does not exist** — yet it is the `source` for nearly every "measured" value. The real survey is **Andrew Tallon** (~2015, ~1 billion points).
+> - Citations "Mercier 2015," "Delbrueck 1898," "Courville-sur-Eure quarry XRF," "Mercier et al. 2011 Tsinghua report" are fabricated or copied from the Nanchan corpus (Tsinghua scanned the *Chinese* building).
+> - Several dimensions are wrong/unverified (e.g. vault height 37.5 m is Reims/Amiens territory; Paris is ~33 m) and the spire — the most-documented, public-domain element — is missing entirely.
+>
+> ✅ The **`verify.mjs` check patterns (G01–G12, P01–P09) and the code structure below are sound and reusable.** Only the dimensions and sources are invalid. A verified, cited corpus is being substituted in, and G09 will be hardened to a source-registry check. — flagged by Claude, 2026-06-13
+
 # Notre-Dame Implementation Guide — Code Pattern Reuse from Nanchan
 
 ## 1. Data Source Mapping
