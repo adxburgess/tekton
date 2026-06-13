@@ -377,7 +377,7 @@ function Member({
   const mat = (
     <meshStandardMaterial
       color={color}
-      map={set?.map}
+      map={isReconWhiteWall ? undefined : set?.map}
       normalMap={isReconWhiteWall ? undefined : set?.normalMap}
       normalScale={isReconWhiteWall ? undefined : set ? new THREE.Vector2(0.9, 0.9) : undefined}
       aoMap={isReconWhiteWall ? undefined : set?.arm}
