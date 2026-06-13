@@ -19,11 +19,12 @@ Read these first, in order — **do not start `ND-2` until you've read the corpu
 
 ## 0. The one-line goal
 
-Ship an interactive 3D reconstruction of **Viollet-le-Duc's 1859 Notre-Dame spire**, derived from **public-domain drawings + Gothic geometric rules**, where **every component proves its source**, an **independent verifier gates the build**, and a **live URL responds**.
+Run the **entire flow end-to-end** — research → acquire → derive → build → verify → record — to ship an interactive 3D reconstruction of **Viollet-le-Duc's 1859 Notre-Dame spire** (from **public-domain drawings + Gothic geometric rules**), where **every component proves its source**, an **independent verifier gates the build**, a **real-time Build Theater + a recorded video** capture the construction, and a **live URL responds**.
 
 ## 1. Definition of Done (machine-verifiable)
 
-- [ ] `npm run build` (= `derive && verify && next build`) exits `0`.
+- [ ] **`npm run goal` runs the full 8-phase flow end-to-end** (research → ingest → derive → build → verify → loop → record → ship), each phase gating the next; `npm run build` (= `research && derive && verify && next build`) exits `0`.
+- [ ] **Research Phase 0 runs**: `scripts/research.mjs` (verified-replay default) deterministically emits `data/notre-dame-canonical.json` + `artifacts/research-findings.json` (16 verdicts, 40 gaps) — so research → derive is one automated pipe.
 - [ ] `data/notre-dame-canonical.json` exists; **every** dimension carries `{provenance, source, url, rights}`.
 - [ ] **Zero unsourced components** — the G09 *source-registry* check passes (a `source` must resolve to the rights-cleared registry, not merely be non-empty).
 - [ ] Deterministic verifier (geometry V-checks recomputed **from component coordinates**, + pixel checks) passes; **≥ 1 logged fail→revise→pass cycle**; failed reports kept as `verifier-report.*.failed.json`.
@@ -31,6 +32,7 @@ Ship an interactive 3D reconstruction of **Viollet-le-Duc's 1859 Notre-Dame spir
 - [ ] **V09 guard:** measured reality is never corrected toward the Gothic ideal. `npm run demo:corrupt` → verify **refuses** (exit 1) → `npm run demo:restore` → green.
 - [ ] Provenance toggle works · drawing→3D reveal works · construction sequence plays · click-to-inspect shows name (FR/EN) + role + citation.
 - [ ] **Build Theater** renders the reconstruction in real time — components stream in derivation order, the reasoning trace streams alongside, and the live verifier HUD ticks checks green (incl. a fail→revise→pass beat).
+- [ ] **The demo is captured**: a recorded `artifacts/run-*.webm` shows the full research → build → verify → corrupt-refusal → live-spire run.
 - [ ] **No restricted assets** used (Tallon raw scan + CNRS/De Luca data = *cite-only*; only public-domain drawings + factual numbers as assets).
 - [ ] **Live URL** responds · public repo · README with source/rights table + rerun instructions.
 
@@ -185,17 +187,17 @@ It is the only thing a judge runs to execute the **whole** flow. Two reinforcing
 - **Impact (35%):** a real heritage tool that makes fidelity affordable; the building the world watched burn (2019) and reopen (2024); provenance you can audit.
 - **Demo (35%):** drawing→3D reveal → provenance toggle → **fail→revise→pass** (`demo:corrupt` live refusal) → the live spire. Must hold up live.
 - **Autonomy (15%):** the verifier gate + vision sub-agent catch failures **without a human**; long autonomous stretches; interventions = new information only; failed reports kept as proof.
-- **Orchestration (15%):** "done" is machine-verifiable (`npm run build` + responding URL); **rerunnable** — swap the data corpus and the same pipeline reconstructs another building (already proven on Nanchan).
+- **Orchestration (15%):** "done" is machine-verifiable (`npm run goal` runs the whole flow green + responding URL + `done.rubric.json`); **rerunnable** — swap the corpus and the same pipeline reconstructs another building (already proven on Nanchan).
 
 ## 7. The `/goal` command
 
 ```
-/goal Build and ship the Notre-Dame de Paris spire (la flèche) reconstruction per docs/GOAL_NOTRE_DAME_SPIRE.md. First read that brief + docs/NOTRE_DAME_VERIFIED_CORPUS.md (the ONLY source of dimensions) and study the Nanchan implementation (scripts/derive.mjs, scripts/verify.mjs, components/Viewer.tsx, data/nanchan-canonical.json) as your template; NEVER use data from the fabricated Reims/Nohesive docs. Work the backlog ND-1..ND-37 in dependency order. Derive the spire from data/notre-dame-canonical.json + public-domain Viollet-le-Duc drawings and Gothic geometric rules into artifacts/structural-spec.json (every component tagged {provenance, source, url, rights}); render it procedurally in React Three Fiber with no imported meshes; and gate on scripts/verify.mjs — the deterministic geometry + pixel checks AND a vision-verifier sub-agent run in a fresh context. Loop derive -> verify -> screenshot -> vision-verify until green; on failure route the fix to the rule engine or the geometry builder and re-run; keep every failed verifier report. DONE when: npm run build (derive && verify && next build) exits 0 with zero unsourced components (G09 source-registry passes), the provenance toggle + drawing-to-3D reveal + construction sequence + click-to-inspect + the real-time Build Theater all work, no restricted assets are used, and a deployed URL responds. Never correct measured reality toward the Gothic ideal (V09); deviations are labeled, not fixed.
+/goal Build and ship the Notre-Dame de Paris spire (la flèche) — the ENTIRE flow end-to-end — per docs/GOAL_NOTRE_DAME_SPIRE.md. First read that brief + docs/NOTRE_DAME_VERIFIED_CORPUS.md (the ONLY source of dimensions), study the Nanchan implementation (scripts/derive.mjs, scripts/verify.mjs, components/Viewer.tsx, data/nanchan-canonical.json) as your template, and follow the Research-guardrails section (cite-or-gap; adversarial verification in a fresh context; >=2 independent sources for any measured value; rights gate; no source-laundering); NEVER use data from the fabricated Reims/Nohesive docs. Work the backlog ND-1..ND-37 in dependency order, building the 8-phase pipeline behind one command `npm run goal` (scripts/orchestrate.mjs), each phase gating the next: research (scripts/research.mjs, verified-replay by default, emits data/notre-dame-canonical.json + artifacts/research-findings.json) -> ingest (validate every node has provenance+source+url+rights; GAP fields never filled) -> derive (Gothic rules -> artifacts/structural-spec.json, every component tagged {provenance, source, url, rights}, no imported meshes) -> build (procedural React Three Fiber) -> verify (scripts/verify.mjs deterministic V-checks + pixel checks recomputed from component coords, AND a vision-verifier sub-agent in a fresh context) -> loop (on red, route rule-engine vs geometry-builder, re-run to green, keep every failed report; include one scripted demo:corrupt -> verify REFUSES (V09) -> demo:restore) -> record (Playwright recordVideo -> artifacts/run-*.webm) -> ship (deploy, assert URL 200). DONE when npm run goal completes green end-to-end: zero unsourced components (G09 source-registry), >=1 logged fail->revise->pass, the provenance toggle + drawing->3D reveal + construction sequence + click-to-inspect + the real-time Build Theater all work, a recorded run-*.webm exists, no restricted assets are used, and a deployed URL responds. Never correct measured reality toward the Gothic ideal (V09); deviations are labeled, not fixed.
 ```
 
 ## 8. Orchestration notes
 
-- Hold the loop in a **dynamic workflow** (derive → build → render → verify → route revisions). `/goal` carries the completion target.
+- Hold the loop in a **dynamic workflow** across all 8 phases (research → ingest → derive → build → verify → loop → record → ship), driven by `npm run goal`. `/goal` carries the completion target.
 - The **vision-verifier sub-agent gates completion** and runs in an independent context — the builder may not stop until it passes.
 - Give the run **persistent memory**: distill each fixed failure into a general rule (e.g. "the builders widened load-bearing arms to 11 fen" → encode the real rule, don't re-derive it).
 - Keep **failed verifier reports** — a logged fail→revise→pass cycle is the autonomy evidence.
