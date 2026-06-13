@@ -15,10 +15,10 @@ type Component = (typeof spec.components)[number] & {
 };
 
 const PROV_COLORS: Record<string, string> = {
-  measured: "#dca83f",
-  reconstructed_design: "#a87f2c",
-  rule_derived: "#5b6cb8",
-  conjecture: "#bb4434",
+  measured: "#d9a843",
+  reconstructed_design: "#a3812f",
+  rule_derived: "#5e6ca8",
+  conjecture: "#b34a38",
 };
 
 const MATERIAL_COLORS: Record<string, string> = {
@@ -98,8 +98,6 @@ function Member({
       color={map ? "#c8cbce" : color}
       map={map ?? undefined}
       roughness={provMode ? 1 : 0.85}
-      emissive={provMode ? baseColor : "#000000"}
-      emissiveIntensity={provMode ? 0.22 : 0}
     />
   );
 
@@ -142,12 +140,12 @@ export default function Viewer() {
       <Canvas camera={{ position: [16, 9, 19], fov: 42 }} shadows>
         <color attach="background" args={["#141416"]} />
         <fog attach="fog" args={["#141416", 36, 95]} />
-        <hemisphereLight args={["#3d4250", "#2a241d", 0.7]} />
-        <ambientLight intensity={0.32} />
+        <hemisphereLight args={["#3d4250", "#2a241d", provMode ? 0.3 : 0.7]} />
+        <ambientLight intensity={provMode ? 1.5 : 0.32} />
         <directionalLight
           position={[16, 26, 12]}
-          intensity={1.7}
-          color="#ffe8c8"
+          intensity={provMode ? 0.55 : 1.7}
+          color={provMode ? "#ffffff" : "#ffe8c8"}
           castShadow
           shadow-mapSize={[2048, 2048]}
           shadow-camera-left={-14}
