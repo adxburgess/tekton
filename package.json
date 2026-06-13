@@ -6,6 +6,8 @@
   "scripts": {
     "derive": "node scripts/derive.mjs",
     "verify": "node scripts/verify.mjs",
+    "demo:corrupt": "node scripts/demo.mjs corrupt",
+    "demo:restore": "node scripts/demo.mjs restore",
     "dev": "next dev",
     "build": "node scripts/derive.mjs && node scripts/verify.mjs && next build",
     "start": "next start"

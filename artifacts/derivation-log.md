@@ -52,6 +52,14 @@ Frame: 2×四椽栿, 2×平梁, 4×驼峰(conjecture), 4×大叉手(conjecture, 
 - 檐椽: YZFS 卷五 用椽之制 椽径≈9 分, 一椽一档 (spacing 18 fen). The exposed eave portion embodies the 1975 conjectural projection → conjecture (propagated). Eave drop 39 fen with slight 檐口微翘.
 - 檐椽 placed: 134 rafters (front/rear + gable rows).
 ## 8. Altar 佛坛 — height 720 mm = 43.6 fen; clearances front 1510 / sides 1265 / rear 1320 mm → 546.7×428.5 fen, offset -5.8 fen rearward [ZHANG2022, measured]
+## 8b. Statues 彩塑 — stylized figures (五组主像)
+- Key heights are MEASURED and chi-based (corroborating the 300 mm 尺): 主佛 13.3 尺 = 241.8 fen, 背光 17.3 尺 = 314.5 fen, 胁侍 8 尺 = 145.5 fen, 文殊/普贤 10 尺 = 181.8 fen [ZHANG2022]
+- Figures are stylized polychrome massing pegged to those heights (lathe thrones, flame mandorlas, ring halos); drapery and faces are NOT modeled → every statue component is CONJECTURE with the measured heights cited. 14 of 17 statues extant; five principal groups modeled.
+- 新样文殊 hook: Earliest extant 'New-Style Manjusri' (新样文殊) group in China — the lion-tamer is the King of Khotan in Tang military dress, tied to post-An Lushan Manjusri state cult under Emperor Daizong.
+
+- Photo-derived GLB models in use: fo, wenshu (public/models/) — replacing procedural massing.
+Statues placed: 主佛+火焰背光, 文殊骑狮, 普贤骑象, 胁侍×2 — all conjecture (form), heights pinned to measured chi values.
+
 
 ## 9. Secondary members 阑额 · 柱础 · 散斗 · 柱头枋 · 正脊 · 围护
 - 阑额: YZFS 卷五 「凡用阑额…广加材一倍」= 30 fen, 厚 20 → rule_derived. Top flush with column top. NO 普拍枋 above — an early-period trait, kept.
@@ -62,7 +70,7 @@ Frame: 2×四椽栿, 2×平梁, 4×驼峰(conjecture), 4×大叉手(conjecture, 
 - 围护 (today's fabric): white walls, central-bay double door, side-bay 直棂窗 — present in the building, dimensions NOT in corpus → conjecture (non-structural infill, labeled).
 
 ## 10. Provenance audit
-- Components: 335 total — conjecture: 191, reconstructed_design: 73, rule_derived: 70, measured: 1
+- Components: 388 total — conjecture: 244, reconstructed_design: 73, rule_derived: 70, measured: 1
 - Audit gate: every component carries {provenance, source} — enforced at emit time; an unsourced component throws.
 
 ## 11. Deviations from the Yingzao Fashi (kept, never corrected)

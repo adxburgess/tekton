@@ -10,7 +10,7 @@
  *
  * Outputs: artifacts/structural-spec.json, artifacts/derivation-log.md
  */
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -519,6 +519,230 @@ comp({
   source: "ZHANG2022",
 });
 
+// --- Statues 彩塑 — stylized polychrome figures (体量示意，非雕塑复原) -----------
+const CHI = C.modular_system.yingzao_chi_mm.value / FEN_MM; // 1 尺 in fen ≈ 18.18
+const KH = A.key_heights_chi;
+const yA = altarH; // statue heights measured in whole/half chi from the altar top
+const H_FO = r1(KH.main_buddha_vairocana * CHI);   // 13.3 尺 ≈ 241.8
+const H_BEI = r1(KH.main_buddha_mandorla * CHI);   // 17.3 尺 ≈ 314.5
+const H_XS = r1(KH.attendant_bodhisattvas * CHI);  // 8 尺 ≈ 145.5
+const H_QI = r1(KH.manjusri_samantabhadra * CHI);  // 10 尺 ≈ 181.8
+const STATUE_SRC =
+  "Heights: ZHANG2022 key_heights_chi (measured, whole/half-chi); arrangement: photographic record; form: stylized polychrome massing — the sculpture itself is not reconstructed";
+L(`## 8b. Statues 彩塑 — stylized figures (五组主像)`);
+L(`- Key heights are MEASURED and chi-based (corroborating the 300 mm 尺): 主佛 ${KH.main_buddha_vairocana} 尺 = ${H_FO} fen, 背光 ${KH.main_buddha_mandorla} 尺 = ${H_BEI} fen, 胁侍 ${KH.attendant_bodhisattvas} 尺 = ${H_XS} fen, 文殊/普贤 ${KH.manjusri_samantabhadra} 尺 = ${H_QI} fen [ZHANG2022]`);
+L(`- Figures are stylized polychrome massing pegged to those heights (lathe thrones, flame mandorlas, ring halos); drapery and faces are NOT modeled → every statue component is CONJECTURE with the measured heights cited. ${A.statue_count.extant} of ${A.statue_count.original} statues extant; five principal groups modeled.`);
+L(`- 新样文殊 hook: ${A.narrative_hook}`);
+L(``);
+
+function st(id, zh, en, role, geometry, position, material, extra = {}) {
+  comp({
+    id, name_zh: zh, name_en: en, phase: "statues", role,
+    geometry, position, material,
+    provenance: "conjecture", source: STATUE_SRC, ...extra,
+  });
+}
+
+/**
+ * Photo-derived model slot: if public/models/<slug>.glb exists (image-to-3D mesh
+ * generated from photographs of the actual statue), emit it instead of the
+ * procedural massing; otherwise run the fallback builder. Either way the height
+ * is pinned to the measured chi value.
+ */
+const modelsUsed = [];
+function modelOr(slug, zh, en, role, x, z, targetH, buildFallback, faceDeg = 0) {
+  const rel = `models/${slug}.glb`;
+  if (existsSync(join(ROOT, "public", rel))) {
+    modelsUsed.push(slug);
+    st(`${slug}-model`, zh, en, role,
+      { type: "gltf", url: `/${rel}`, targetH, faceDeg }, [x, yA, z], undefined, {
+        source:
+          "Form: image-to-3D mesh derived from photographs of the actual statue (photo-derived, still conjecture — not survey geometry); height: ZHANG2022 key_heights_chi (measured)",
+      });
+  } else {
+    buildFallback();
+  }
+}
+
+/** Flame-mandorla outline (pointed top, flat-ish bottom), origin at bottom centre. */
+function mandorlaPts(W, H) {
+  const N = 18, side = [];
+  for (let i = 0; i <= N; i++) {
+    const u = i / N;
+    side.push([r1((W / 2) * Math.pow(Math.sin(Math.PI * (0.08 + 0.92 * u)), 0.75)), r1(H * u)]);
+  }
+  return [...side.map(([px, py]) => [-px, py]), ...side.reverse()];
+}
+
+/** Seated figure (facing +z): wide crossed legs, robed torso, arms, gilt head, halo. */
+function seatedFigure(idp, zh, en, role, x, z, baseY, H, opts = {}) {
+  const M = opts.robeMat ?? "caisu";
+  const P = (dy) => r1(baseY + dy * H);
+  st(`${idp}-lap`, `${zh}·结跏趺坐`, `${en} — crossed legs`, role,
+    { type: "capsule", r: r1(0.13 * H), h: r1(0.36 * H) }, [x, P(0.13), r1(z + 0.02 * H)], M,
+    { rotation_deg: [0, 0, 90] });
+  st(`${idp}-torso`, `${zh}·躯干`, `${en} — torso`, role,
+    { type: "sphere", r: r1(0.165 * H), scale: [1.1, 1.55, 0.8] }, [x, P(0.46), z], M);
+  st(`${idp}-shoulders`, `${zh}·肩`, `${en} — shoulders`, role,
+    { type: "sphere", r: r1(0.155 * H), scale: [1.5, 0.62, 0.85] }, [x, P(0.68), z], M);
+  for (const s of [-1, 1]) {
+    st(`${idp}-arm${s > 0 ? "R" : "L"}`, `${zh}·臂`, `${en} — arm`, role,
+      { type: "capsule", r: r1(0.05 * H), h: r1(0.30 * H) },
+      [r1(x + s * 0.185 * H), P(0.48), r1(z + 0.02 * H)], M, { rotation_deg: [0, 0, -s * 12] });
+    st(`${idp}-ear${s > 0 ? "R" : "L"}`, `${zh}·耳`, `${en} — ear`, role,
+      { type: "capsule", r: r1(0.02 * H), h: r1(0.07 * H) }, [r1(x + s * 0.105 * H), P(0.85), z], "jin");
+  }
+  st(`${idp}-hands`, `${zh}·禅定印`, `${en} — hands (dhyana mudra)`, role,
+    { type: "sphere", r: r1(0.065 * H), scale: [1.5, 0.7, 1] }, [x, P(0.30), r1(z + 0.115 * H)], "jin");
+  st(`${idp}-neck`, `${zh}·颈`, `${en} — neck`, role,
+    { type: "cylinder", r: r1(0.05 * H), h: r1(0.06 * H) }, [x, P(0.775), z], "jin");
+  st(`${idp}-head`, `${zh}·头`, `${en} — head`, role,
+    { type: "sphere", r: r1(0.105 * H) }, [x, P(0.865), z], "jin");
+  st(`${idp}-hair`, `${zh}·发`, `${en} — hair`, role,
+    { type: "sphere", r: r1(0.108 * H), scale: [1, 0.62, 1] }, [x, P(0.905), z], "qing");
+  if (opts.crown) {
+    st(`${idp}-crown`, `${zh}·宝冠`, `${en} — crown`, role,
+      { type: "cylinder", r: r1(0.105 * H), h: r1(0.035 * H) }, [x, P(0.935), z], "jin");
+    st(`${idp}-topknot`, `${zh}·发髻`, `${en} — topknot`, role,
+      { type: "sphere", r: r1(0.045 * H) }, [x, P(0.985), z], "qing");
+  } else {
+    st(`${idp}-ushnisha`, `${zh}·肉髻`, `${en} — ushnisha`, role,
+      { type: "sphere", r: r1(0.055 * H) }, [x, P(0.97), z], "qing");
+  }
+  st(`${idp}-halo`, `${zh}·头光`, `${en} — head halo`, role,
+    { type: "torus", r: r1(0.17 * H), rt: r1(0.018 * H) }, [x, P(0.865), r1(z - 0.13 * H)], "jin");
+}
+
+/** Standing attendant (facing +z): lotus base, flared robe, joined hands, crowned head, halo. */
+function standingFigure(idp, zh, en, role, x, z, H) {
+  const P = (dy) => r1(yA + dy * H);
+  st(`${idp}-lianzuo`, `${zh}·莲座`, `${en} — lotus base`, role,
+    { type: "lathe", pts: [[0.10, 0], [0.135, 0.03], [0.115, 0.055], [0.085, 0.07]].map(([a, b]) => [r1(a * H), r1(b * H)]), seg: 10 },
+    [x, yA, z], "lian");
+  st(`${idp}-robe`, `${zh}·长裙`, `${en} — robe`, role,
+    { type: "lathe", pts: [[0.115, 0], [0.13, 0.02], [0.07, 0.40], [0.062, 0.58], [0.085, 0.64], [0.05, 0.70]].map(([a, b]) => [r1(a * H), r1(b * H)]), seg: 14 },
+    [x, P(0.06), z], "caisu");
+  st(`${idp}-shoulders`, `${zh}·肩`, `${en} — shoulders`, role,
+    { type: "sphere", r: r1(0.085 * H), scale: [1.5, 0.55, 0.8] }, [x, P(0.72), z], "caisu");
+  for (const s of [-1, 1]) {
+    st(`${idp}-arm${s > 0 ? "R" : "L"}`, `${zh}·臂`, `${en} — arm`, role,
+      { type: "capsule", r: r1(0.03 * H), h: r1(0.24 * H) }, [r1(x + s * 0.10 * H), P(0.56), z], "caisu",
+      { rotation_deg: [0, 0, -s * 10] });
+  }
+  st(`${idp}-hands`, `${zh}·合十`, `${en} — joined hands`, role,
+    { type: "sphere", r: r1(0.04 * H), scale: [1.3, 0.9, 1] }, [x, P(0.44), r1(z + 0.06 * H)], "jin");
+  st(`${idp}-head`, `${zh}·头`, `${en} — head`, role,
+    { type: "sphere", r: r1(0.072 * H) }, [x, P(0.835), z], "jin");
+  st(`${idp}-hair`, `${zh}·发`, `${en} — hair`, role,
+    { type: "sphere", r: r1(0.074 * H), scale: [1, 0.6, 1] }, [x, P(0.865), z], "qing");
+  st(`${idp}-crown`, `${zh}·宝冠`, `${en} — crown`, role,
+    { type: "cylinder", r: r1(0.07 * H), h: r1(0.025 * H) }, [x, P(0.895), z], "jin");
+  st(`${idp}-topknot`, `${zh}·发髻`, `${en} — topknot`, role,
+    { type: "sphere", r: r1(0.032 * H) }, [x, P(0.945), z], "qing");
+  st(`${idp}-halo`, `${zh}·头光`, `${en} — head halo`, role,
+    { type: "torus", r: r1(0.115 * H), rt: r1(0.013 * H) }, [x, P(0.835), r1(z - 0.09 * H)], "jin");
+}
+
+// 主佛 — sumeru throne (octagonal lathe) + lotus + seated figure + flame mandorla
+modelOr("fo", "主佛（照片建模）", "Main Buddha (photo-derived)",
+  "Principal seated Buddha incl. throne; height pinned to the 13.3-chi figure value.", 0, -70, H_FO, () => {  // faceDeg set below
+  const bz = -70;
+  const role = `Principal seated Buddha; total height ${KH.main_buddha_vairocana} chi from the altar — about twice human height, per《祇洹寺图经》prescription.`;
+  st("fo-xumizuo", "主佛·须弥座", "Main Buddha — sumeru throne", role,
+    { type: "lathe", pts: [[58, 0], [58, 10], [46, 14], [40, 28], [46, 42], [56, 46], [54, 50]], seg: 8 },
+    [0, yA, bz], "lian");
+  st("fo-lianhua", "主佛·莲座", "Main Buddha — lotus seat", role,
+    { type: "lathe", pts: [[28, 0], [50, 6], [54, 14], [44, 20], [38, 23]], seg: 12 },
+    [0, yA + 48, bz], "lian");
+  seatedFigure("fo", "主佛", "Main Buddha", role, 0, bz, yA + 66, r1(H_FO - 66));
+  st("fo-beiguang-rim", "主佛·背光（绿缘）", "Main Buddha — mandorla rim",
+    "Outer rim of the flame mandorla.",
+    { type: "shape2d", pts: mandorlaPts(147, r1(H_BEI - 81 + 8)), d: 4 }, [0, yA + 81, bz - 39], "shilv");
+  st("fo-beiguang", "主佛·举身背光", "Main Buddha — full-body flame mandorla",
+    `Flame mandorla rising to ${KH.main_buddha_mandorla} chi — the tallest object in the hall, filling the open 彻上明造 interior between the transverse beams.`,
+    { type: "shape2d", pts: mandorlaPts(133, r1(H_BEI - 85)), d: 4 }, [0, yA + 85, bz - 36], "caisu");
+}, 270);
+
+// 文殊骑狮 (west)
+modelOr("wenshu", "文殊骑狮（照片建模）", "Manjusri on lion (photo-derived)",
+  "Manjusri-on-lion group.", -175, -10, H_QI, () => {
+  const x = -175, z = -10;
+  const role = "Manjusri riding the lion — the earliest extant 新样文殊 group; the lion-tamer figure (lost) was the King of Khotan in Tang military dress.";
+  for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    st(`wenshu-shi-leg${sx > 0 ? "R" : "L"}${sz > 0 ? "F" : "B"}`, "狮·腿", "Lion — leg", role,
+      { type: "capsule", r: 6.5, h: 26 }, [x + sx * 14, yA + 13, z + sz * 26], "shou");
+  }
+  st("wenshu-shi-body", "狮·躯体", "Lion — body", role,
+    { type: "capsule", r: 19, h: 56 }, [x, yA + 46, z - 2], "shou", { rotation_deg: [90, 0, 0] });
+  st("wenshu-shi-chest", "狮·胸", "Lion — chest", role,
+    { type: "sphere", r: 21 }, [x, yA + 44, z + 22], "shou");
+  st("wenshu-shi-head", "狮·头", "Lion — head", role,
+    { type: "sphere", r: 15 }, [x, yA + 72, z + 40], "shou");
+  st("wenshu-shi-muzzle", "狮·吻", "Lion — muzzle", role,
+    { type: "sphere", r: 8, scale: [1, 0.75, 1.3] }, [x, yA + 68, z + 52], "shou");
+  st("wenshu-shi-mane", "狮·鬃圈", "Lion — mane ring", role,
+    { type: "torus", r: 17, rt: 7 }, [x, yA + 72, z + 33], "shilv");
+  for (const s of [-1, 1]) {
+    st(`wenshu-shi-ear${s > 0 ? "R" : "L"}`, "狮·耳", "Lion — ear", role,
+      { type: "sphere", r: 4.5 }, [x + s * 9, yA + 84, z + 36], "qing");
+  }
+  st("wenshu-shi-tail", "狮·尾", "Lion — tail", role,
+    { type: "capsule", r: 3.5, h: 26 }, [x, yA + 58, z - 34], "shou", { rotation_deg: [-40, 0, 0] });
+  st("wenshu-anzuo", "文殊·莲座鞍", "Manjusri — lotus saddle", role,
+    { type: "lathe", pts: [[10, 0], [26, 6], [28, 12], [22, 16], [18, 18]], seg: 10 }, [x, yA + 62, z - 2], "lian");
+  const base = yA + 78, Hr = r1(H_QI - 78);
+  seatedFigure("wenshu", "文殊菩萨", "Manjusri", role, x, z - 2, base, Hr, { crown: true });
+  st("wenshu-beiguang", "文殊·背光", "Manjusri — flame mandorla", role,
+    { type: "shape2d", pts: mandorlaPts(70, r1(H_QI + 15 - 78)), d: 3 }, [x, base, z - 32], "caisu");
+}, 180);
+
+// 普贤骑象 (east)
+modelOr("puxian", "普贤骑象（照片建模）", "Samantabhadra on elephant (photo-derived)",
+  "Samantabhadra-on-elephant group.", 175, -10, H_QI, () => {
+  const x = 175, z = -10;
+  const role = "Samantabhadra riding the white elephant, mirroring Manjusri across the central Buddha.";
+  for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    st(`puxian-xiang-leg${sx > 0 ? "R" : "L"}${sz > 0 ? "F" : "B"}`, "象·腿", "Elephant — leg", role,
+      { type: "cylinder", r: 8.5, h: 32 }, [x + sx * 16, yA + 16, z + sz * 28], "shou");
+  }
+  st("puxian-xiang-body", "象·躯体", "Elephant — body", role,
+    { type: "capsule", r: 23, h: 64 }, [x, yA + 50, z], "shou", { rotation_deg: [90, 0, 0] });
+  st("puxian-xiang-head", "象·头", "Elephant — head", role,
+    { type: "sphere", r: 17 }, [x, yA + 62, z + 46], "shou");
+  for (const s of [-1, 1]) {
+    st(`puxian-xiang-ear${s > 0 ? "R" : "L"}`, "象·耳", "Elephant — ear", role,
+      { type: "sphere", r: 12, scale: [0.25, 1, 0.8] }, [x + s * 16, yA + 64, z + 42], "shou",
+      { rotation_deg: [0, s * 25, 0] });
+    st(`puxian-xiang-tusk${s > 0 ? "R" : "L"}`, "象·牙", "Elephant — tusk", role,
+      { type: "cone", r: 2.5, rTop: 0.8, h: 16 }, [x + s * 7, yA + 48, z + 56], "ya",
+      { rotation_deg: [70, 0, 0] });
+  }
+  st("puxian-xiang-trunk1", "象·鼻（上段）", "Elephant — trunk (upper)", role,
+    { type: "capsule", r: 5, h: 22 }, [x, yA + 52, z + 60], "shou", { rotation_deg: [40, 0, 0] });
+  st("puxian-xiang-trunk2", "象·鼻（下段）", "Elephant — trunk (lower)", role,
+    { type: "capsule", r: 4, h: 20 }, [x, yA + 36, z + 68], "shou", { rotation_deg: [8, 0, 0] });
+  st("puxian-xiang-tail", "象·尾", "Elephant — tail", role,
+    { type: "capsule", r: 3, h: 22 }, [x, yA + 52, z - 36], "shou", { rotation_deg: [-30, 0, 0] });
+  st("puxian-anzuo", "普贤·莲座鞍", "Samantabhadra — lotus saddle", role,
+    { type: "lathe", pts: [[12, 0], [28, 6], [30, 12], [24, 16], [20, 18]], seg: 10 }, [x, yA + 72, z - 2], "lian");
+  const base = yA + 88, Hr = r1(H_QI - 88);
+  seatedFigure("puxian", "普贤菩萨", "Samantabhadra", role, x, z - 2, base, Hr, { crown: true });
+  st("puxian-beiguang", "普贤·背光", "Samantabhadra — flame mandorla", role,
+    { type: "shape2d", pts: mandorlaPts(70, r1(H_QI + 15 - 88)), d: 3 }, [x, base, z - 32], "caisu");
+});
+
+// 胁侍菩萨 ×2 — standing, 8 chi
+for (const sx of [-1, 1]) {
+  const slug = `xieshi-${sx > 0 ? "E" : "W"}`;
+  modelOr(slug, "胁侍菩萨（照片建模）", "Attendant bodhisattva (photo-derived)",
+    "Standing attendant bodhisattva flanking the main Buddha, 8 chi.", sx * 105, -40, H_XS, () =>
+    standingFigure(slug, "胁侍菩萨", "Attendant bodhisattva",
+      "Standing attendant bodhisattva flanking the main Buddha, 8 chi.", sx * 105, -40, H_XS));
+}
+if (modelsUsed.length) L(`- Photo-derived GLB models in use: ${modelsUsed.join(", ")} (public/models/) — replacing procedural massing.`);
+L(`Statues placed: 主佛+火焰背光, 文殊骑狮, 普贤骑象, 胁侍×2 — all conjecture (form), heights pinned to measured chi values.`);
+L(``);
+
 // --- Secondary members: 阑额 / 柱础 / 斗 / 柱头枋 / 正脊·鸱尾 / 今貌围护 ----------
 L(``);
 L(`## 9. Secondary members 阑额 · 柱础 · 散斗 · 柱头枋 · 正脊 · 围护`);
@@ -671,7 +895,7 @@ const spec = {
     canonical_source: "data/nanchan-canonical.json",
   },
   units: { fen_mm: FEN_MM, note: "All dimensions/positions in fen. Scene scale: 1 fen = 16.5 mm." },
-  phases: ["platform", "columns", "puzuo", "frame", "roof", "enclosure"],
+  phases: ["platform", "columns", "puzuo", "frame", "roof", "enclosure", "statues"],
   key_dimensions: {
     total_width_fen: totalW, total_depth_fen: totalD,
     bay_rhythm: [sideBay, centralBay, sideBay],
