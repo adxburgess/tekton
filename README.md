@@ -4,13 +4,13 @@
 
 **▶ Live demo: https://tekton-build.vercel.app**
 
-Built for **Claude Fable 5 Build Day** — an autonomous build pipeline that takes a historic building from *cited research → parametric geometry → live, navigable 3D*, with every element labelled by how strongly it's known (measured / rule-derived / reconstructed / conjecture) and a verifier that refuses anything unsourced.
+Built for **Claude Build Day** — an autonomous build pipeline that takes a historic building from *cited research → parametric geometry → live, navigable 3D*, with every element labelled by how strongly it's known (measured / rule-derived / reconstructed / conjecture) and a verifier that refuses anything unsourced.
 
 <!--
   🏆 WINNER BANNER — uncomment the block below to display it publicly.
   (Left for the repo owner to enable.)
 
-> # 🏆 Claude Fable 5 Build Day — Hackathon Winner!
+> # 🏆 Claude Build Day — Hackathon Winner!
 > **Awarded $100K in Claude credits.** 🎉
 -->
 
