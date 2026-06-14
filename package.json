@@ -1,8 +1,8 @@
 {
-  "name": "yingzao",
+  "name": "tekton",
   "version": "0.1.0",
   "private": true,
-  "description": "Yingzao 营造 — evidence-based 3D reconstruction of Tang timber architecture. Every component can prove where it came from.",
+  "description": "Tekton — evidence-based 3D reconstruction of Tang timber architecture. Every component can prove where it came from.",
   "scripts": {
     "derive": "node scripts/derive.mjs",
     "verify": "node scripts/verify.mjs",

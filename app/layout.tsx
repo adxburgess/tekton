@@ -2,7 +2,7 @@ import "./globals.css";
 import "../styles/annotation.css";
 
 export const metadata = {
-  title: "营造 Yingzao — 南禅寺大殿",
+  title: "Tekton — 南禅寺大殿",
   description:
     "Evidence-based 3D reconstruction of Nanchan Temple Main Hall (782 CE). Every component can prove where it came from.",
 };

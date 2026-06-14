@@ -1,14 +1,14 @@
-# Yingzao 营造
+# Tekton
 
 Evidence-based 3D reconstruction of Tang timber architecture. Every component can prove where it came from.
 
-Yingzao is a browser-based reconstruction engine for historic architecture. The current build reconstructs the Main Hall of Nanchan Temple, 南禅寺大殿, a 782 CE Tang timber building in Shanxi and the oldest surviving wooden building in China. The project turns survey data, modular construction rules, and provenance constraints into a navigable 3D scene: not "AI makes an old-looking building," but "a model is allowed to render only what it can cite."
+Tekton is a browser-based reconstruction engine for historic architecture. The current build reconstructs the Main Hall of Nanchan Temple, 南禅寺大殿, a 782 CE Tang timber building in Shanxi and the oldest surviving wooden building in China. The project turns survey data, modular construction rules, and provenance constraints into a navigable 3D scene: not "AI makes an old-looking building," but "a model is allowed to render only what it can cite."
 
 ![Default view](artifacts/preview-default.png)
 
 ## What It Does
 
-Yingzao rebuilds Nanchan Temple as an interactive 3D spatial narrative:
+Tekton rebuilds Nanchan Temple as an interactive 3D spatial narrative:
 
 - Walk or orbit around a procedurally generated Tang timber hall.
 - Scrub a construction sequence from platform to columns, bracket sets, frame, roof, enclosure, and statues.
@@ -25,7 +25,7 @@ Yingzao rebuilds Nanchan Temple as an interactive 3D spatial narrative:
 
 China has only a handful of surviving Tang wooden buildings. They are remote, fragile, and often hard for the public to understand even when physically accessible, because the structural story is hidden in the roof frame and bracket sets.
 
-At the same time, historical reconstruction often collapses into scenography: buildings that look generically old while mixing periods, materials, proportions, and undocumented guesses. Yingzao takes the opposite position:
+At the same time, historical reconstruction often collapses into scenography: buildings that look generically old while mixing periods, materials, proportions, and undocumented guesses. Tekton takes the opposite position:
 
 > Fidelity should be cheaper than vibes, and every guess should wear a label.
 
