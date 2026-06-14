@@ -2,17 +2,13 @@
 
 ### Evidence-based 3D reconstruction of historic architecture — *nothing renders without a cited source.*
 
+> # 🏆 First Place — Claude Build Day Hackathon 🎉
+> **Tekton won 1st place** at the Claude Build Day hackathon (Cerebral Valley), winning **$100K in Claude credits**.
+> *— per the official Cerebral Valley winners announcement.*
+
 **▶ Live demo: https://tekton-build.vercel.app**
 
 Built for **Claude Build Day** — an autonomous build pipeline that takes a historic building from *cited research → parametric geometry → live, navigable 3D*, with every element labelled by how strongly it's known (measured / rule-derived / reconstructed / conjecture) and a verifier that refuses anything unsourced.
-
-<!--
-  🏆 WINNER BANNER — uncomment the block below to display it publicly.
-  (Left for the repo owner to enable.)
-
-> # 🏆 Claude Build Day — Hackathon Winner!
-> **Awarded $100K in Claude credits.** 🎉
--->
 
 | Notre-Dame · Spire | Notre-Dame · Towers | Whole Cathedral | Nanchan Temple |
 |:--:|:--:|:--:|:--:|
